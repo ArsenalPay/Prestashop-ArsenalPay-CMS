@@ -22,9 +22,10 @@
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
-{capture name=path}{l s='ArsenalPay payment.' mod='arsenalpay'}{/capture}
 
-<h2>{l s='Order summary' mod='arsenalpay'}</h2>
+{capture name=path}
+	<a href="{$link->getPageLink('order', true, NULL, NULL)|escape:'html':'UTF-8'}" title="{l s='Go back to your shopping cart' mod='arsenalpay'}">{l s='Your shopping cart' mod='arsenalpay'}</a><span class="navigation-pipe">{$navigationPipe}</span>{l s='Arsenal Pay payment' mod='arsenalpay'}
+{/capture}
 
 {assign var='current_step' value='payment'}
 {include file="$tpl_dir./order-steps.tpl"}
@@ -33,6 +34,6 @@
 	<p class="warning">{l s='Your shopping cart is empty.' mod='arsenalpay'}</p>
 {else}
 
-<iframe src="{$frame_url}?src={$srcc}&t={$token}&n={$order_id}&a={$total}&s={$other_code}&frame={$frame_mode}&css={$css}" {$frame_params}></iframe>	
+<iframe src="{$frame_url}?src={$srcc}&t={$ap_token}&n={$order_id}&a={$total}&s={$other_code}&frame={$frame_mode}&css={$css}" {$frame_params}></iframe>	
 
 {/if}

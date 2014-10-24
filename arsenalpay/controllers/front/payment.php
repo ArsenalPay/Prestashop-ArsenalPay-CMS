@@ -16,6 +16,13 @@ class ArsenalpayPaymentModuleFrontController extends ModuleFrontController
 		parent::initContent();
 		
 		$cart = $this->context->cart;
+		$currency = $this->context->currency;
+		$order_total = $this->context->cart->getOrderTotal(true);
+		$format_total = number_format($order_total, 2, '.', '');
+		$this->context->smarty->assign(array(
+		'total' => Tools::displayPrice($format_total, $currency),
+	));
+		/*$cart = $this->context->cart;
 		$config = $this->module->am_config;
 		
 		$this->context->smarty->assign(array(
@@ -40,8 +47,8 @@ class ArsenalpayPaymentModuleFrontController extends ModuleFrontController
 			'frame_url' => $config['arsenalpay_frame_url'],
                         'frame_mode' => $config['arsenalpay_frame_mode'],
 			'frame_params' => $config['arsenalpay_frame_params'],
-		));
+		));*/
 		
-		$this->setTemplate('payment_execution.tpl');
+		$this->setTemplate('order_summary.tpl');
 	}
 }

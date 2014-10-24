@@ -3,45 +3,49 @@ if (!defined('_PS_VERSION_'))
     {
 	exit;
     }
+//	include_once(_PS_MODULE_DIR_.'arsenalpay/arsenalpay.php');
 
 class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
     {
 	public $ssl = true;
 	public $display_column_left = false;
-        public $str_log;
+    public $str_log;
 	/**
 	 * @see FrontController::initContent()
 	 */
 	public function initContent()
             {
 		parent::initContent();
-                $cart = $this->context->cart;
-		if ($cart->id_customer == 0 || $cart->id_address_delivery == 0 || $cart->id_address_invoice == 0 || !$this->module->active)
-                    {
-			$this->exitf ('ERR');
-                    }
+	
+                //$cart = Context::getContext();
+				
+		//if ($cart->id_customer == 0 || $cart->id_address_delivery == 0 || $cart->id_address_invoice == 0 || !$this->module->active)
+		
+          //          {
+			//$this->exitf ('ERR');
+          //          }
 		// Check that this payment option is still available in case the customer changed his address just before the end of the checkout process
-		$authorized = false;
-		foreach (Module::getPaymentModules() as $module)
-                    {
-			if ($module['name'] == 'arsenalpay')
-			{
-				$authorized = true;
-				break;
-			}
-                    }
-		if (!$authorized)
-                    {
-			$this->exitf ('ERR');
-                    }
-		$customer = new Customer($cart->id_customer);
-		if (!Validate::isLoadedObject($customer))
-                    {
-			$this->exitf ('ERR');
-                    }
+		//$authorized = false;
+		//foreach (Module::getPaymentModules() as $module)
+       //             {
+		//	if ($module['name'] == 'arsenalpay')
+		//	{
+		//		$authorized = true;
+		//		break;
+		//	}
+        //            }
+		//if (!$authorized)
+        //            {echo 'auth</br>';
+		//	$this->exitf ('ERR');
+               //     }
+		//$customer = new Customer($cart->id_customer);
+		//if (!Validate::isLoadedObject($customer))
+        //            { echo 'custom</br>';
+		//	$this->exitf ('ERR');
+         //           }
 
 		//$currency = $this->context->currency;
-		$total = (float)$cart->getOrderTotal(true, Cart::BOTH);
+		//$total = (float)$cart->getOrderTotal(true, Cart::BOTH);
                
         
                 $ars_callback = $_POST;
@@ -87,18 +91,13 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
                                 $this->str_log .= " $key=$ars_callback[$key]";
                             }
                     }
-                    //============== For testing, delete after testing =============================
-      $S=md5(md5($ars_callback['ID']).
-                md5($ars_callback['FUNCTION']).md5($ars_callback['RRN']).
-              md5($ars_callback['PAYER']).md5($ars_callback['AMOUNT']).md5($ars_callback['ACCOUNT']).
-               md5($ars_callback['STATUS']).md5($KEY) );
-        echo $S.'</br>';
+                    
         //======================================
-                if ($ars_callback['AMOUNT'] != $total)
+          /*      if ($ars_callback['AMOUNT'] != $total)
                     {
                         $this->exitf( 'ERR_AMOUNT' );
                     }
-                 
+                 */
      
                 //======================================
                 /**
@@ -106,9 +105,17 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
                 */
 		if( !( $this->_checkSign( $ars_callback, $KEY) ) ) 
                     {
+					//============== For testing, delete after testing =============================
+      $S=md5(md5($ars_callback['ID']).
+               md5($ars_callback['FUNCTION']).md5($ars_callback['RRN']).
+              md5($ars_callback['PAYER']).md5($ars_callback['AMOUNT']).md5($ars_callback['ACCOUNT']).
+              md5($ars_callback['STATUS']).md5($KEY) );
+       echo $S.'</br>';
 			$this->exitf( 'ERR_INVALID_SIGN' );
                         
                     }
+					 $id_order = Order::getOrderByCartId($ars_callback['ACCOUNT']);
+                     $objOrder = new Order($id_order);
                 if( $ars_callback['FUNCTION'] == "check" )
                     {
                         // Check account
@@ -118,10 +125,13 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
                                 YES - account exists
                                 NO - account not exists
                         */
-                        if ($ars_callback['ACCOUNT'] != $cart->id)
+						//$id_order = Order::getOrderByCartId($ars_callback['ACCOUNT']);
+                        if ($id_order == NULL)
                             {
-                                $this->exitf( 'NO' );
+				   
+                               $this->exitf( 'NO' );
                             }
+							$objOrder->setCurrentState(_PS_OS_PREPARATION_);
                         $this->exitf( 'YES' );
                     }
                 elseif( $ars_callback['FUNCTION']=="payment" )
@@ -132,20 +142,22 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
                                 Result:
                                 OK - success saving
                                 ERR - error saving*/
-                        $arsenalpay = new ArsenalPay();
+                       // $arsenalpay = new ArsenalPay();
+						//echo $arsenalpay->displayName;
+							
                         $dbResult = Db::getInstance()->executeS('SELECT `id_order_state` FROM `'._DB_PREFIX_
                                 .'order_state_lang` WHERE `template` = "payment" GROUP BY `template`;');
+								
                         $newOrderState = (int)$dbResult[0]['id_order_state'];
-                        $arsenalpay->validateOrder($ars_callback['ACCOUNT'], $newOrderState, $ars_callback['AMOUNT'], $arsenalpay->displayName);
-                    
-
-                        $id_order = $arsenalpay->currentOrder;
-                        $objOrder = new Order($id_order);
-                        $objOrder->setCurrentState($newOrderState);
-                        $this->exitf('OK');
+                       // $arsenalpay->validateOrder($ars_callback['ACCOUNT'], $newOrderState, $ars_callback['AMOUNT'], $arsenalpay->displayName);
+					    
+					   
+                       $objOrder->setCurrentState($newOrderState);
+                       $this->exitf('OK');
                     }
                 else 
-                    {   
+                    { 
+					//$objOrder->setCurrentState(_PS_OS_ERROR_);
                         $this->exitf('ERR');
                     }
             }    
@@ -165,6 +177,6 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
                 fclose($fp);
 
                 echo $msg;
-                die();
+                exit;
             }
             }

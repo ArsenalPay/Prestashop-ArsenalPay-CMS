@@ -13,8 +13,8 @@ class ArsenalPay extends PaymentModule
         $this->name = 'arsenalpay';        
         $this->tab = 'payments_gateways';
         $this->version = 1.0;
-	$this->author = 'ArsenalMedia';
-	$this->controllers = array('payment', 'validation','callback');
+		$this->author = 'ArsenalMedia';
+		$this->controllers = array('payment', 'validation','callback');
         
         $this->currencies = true;
         $this->currencies_mode = 'radio';
@@ -31,7 +31,7 @@ class ArsenalPay extends PaymentModule
 			'arsenalpay_check_url',
 			'arsenalpay_srcc',
 			'arsenalpay_frame_url',
-                        'arsenalpay_frame_mode',
+            'arsenalpay_frame_mode',
 			'arsenalpay_frame_params',
 		));
 	$this->bootstrap = true;		
@@ -39,7 +39,7 @@ class ArsenalPay extends PaymentModule
         /* The parent construct is required for translations */
         
         $this->page = basename(__FILE__, '.php');
-        $this->displayName = 'arsenalpay';
+        $this->displayName = 'ArsenalPay';
         $this->description = $this->l('Accept payments with ArsenalPay');
         $this->confirmUninstall = $this->l('Are you sure you want to delete your details?');
         if (!isset($this->am_config['arsenalpay_token']) || !isset($this->am_config['arsenalpay_key']) || !isset($this->am_config['arsenalpay_srcc']))
@@ -67,6 +67,30 @@ class ArsenalPay extends PaymentModule
         Configuration::updateValue('arsenalpay_frame_url', 'https://arsenalpay.ru/payframe/pay.php');
         Configuration::updateValue('arsenalpay_frame_params', "width='500' height='500'");
         Configuration::updateValue('arsenalpay_frame_mode', "1");
+		// create new order status in case ArsenalPay method is chosen but is not still processing
+		/*$values_to_insert = array(
+		'invoice' => 1,
+		'send_email' => 1,
+		'module_name' => $this->name,
+		'color' => 'RoyalBlue',
+		'unremovable' => 0,
+		'hidden' => 0,
+		'logable' => 1,
+		'delivery' => 0,
+		'shipped' => 0,
+		'paid' => 1,
+		'deleted' => 0);
+
+		if(!Db::getInstance()->autoExecute(_DB_PREFIX_.'order_state', $values_to_insert, 'INSERT'))
+			return false;
+$id_order_state = (int)Db::getInstance()->Insert_ID();
+$languages = Language::getLanguages(false);
+foreach ($languages as $language)
+Db::getInstance()->autoExecute(_DB_PREFIX_.'order_state_lang', array('id_order_state'=>$id_order_state, 'id_lang'=>$language['id_lang'], 'name'=>'Status name', 'template'=>''), 'INSERT');
+if (!@copy(dirname(__FILE__).DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'logo.gif', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'os'.DIRECTORY_SEPARATOR.$id_order_state.'.gif'))
+return false;
+Configuration::updateValue('PS_OS_STATUSNAME', $id_order_state);
+unset($id_order_state);*/
 		
         return true;
     }
@@ -285,5 +309,9 @@ class ArsenalPay extends PaymentModule
         return $this->display(__FILE__, 'arsenalpay.tpl');
     }
 
+	/*public function hookdisplayHeader($params)
+    {
+      //  $this->context->controller->addCSS(($this->_path).'arsenalpay.css', 'all');
+    }*/
 }
 ?>
