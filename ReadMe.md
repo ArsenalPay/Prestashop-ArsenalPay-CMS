@@ -37,7 +37,7 @@ Basic feature list:
 3. Open dropdown list by clicking on the arrow near **Configuration** button
 4. Find **Delete** in this list and click on it.
 
-##Usage
+## Usage
 After successful installation and proper settings new choice of payment method with ArsenalPay will appear on your site. To make payment for an order you will need:
 1. Choose goods from the shop catalog.
 2. Go into the order page.

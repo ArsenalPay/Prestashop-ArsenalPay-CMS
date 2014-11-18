@@ -23,7 +23,7 @@ $_MODULE['<{arsenalpay}prestashop>order_summary_c884ed19483d45970c5bf23a681e2dd2
 $_MODULE['<{arsenalpay}prestashop>order_summary_e2867a925cba382f1436d1834bb52a1c'] = 'Итого к оплате по вашему заказу';
 $_MODULE['<{arsenalpay}prestashop>order_summary_1f87346a16cf80c372065de3c54c86d9'] = '(вкл. налог)';
 $_MODULE['<{arsenalpay}prestashop>order_summary_be6a4dda2c9bfa9673e72fdd6f6b377c'] = ' Мы принимаем такую валюту для оплаты c ArsenalPay:';
-$_MODULE['<{arsenalpay}prestashop>order_summary_0881a11f7af33bc1b43e437391129d66'] = 'Пожалуйста, подтвердите ваш заказ, нажав на \"Я подтверждаю заказ\"';
+$_MODULE['<{arsenalpay}prestashop>order_summary_0881a11f7af33bc1b43e437391129d66'] = 'Пожалуйста, подтвердите ваш заказ, нажав на \"Я подтверждаю свой заказ\"';
 $_MODULE['<{arsenalpay}prestashop>order_summary_46b9e3665f187c739c55983f757ccda0'] = 'Я подтверждаю свой заказ';
 $_MODULE['<{arsenalpay}prestashop>order_summary_569fd05bdafa1712c4f6be5b153b8418'] = 'Другие способы оплаты';
 $_MODULE['<{arsenalpay}prestashop>payment_execution_8fd2bb4c391b7dd42fb0c585d5f91199'] = 'Вернуться в корзину';

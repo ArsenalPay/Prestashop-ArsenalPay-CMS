@@ -1,6 +1,6 @@
 {*
-* 2007-2014 PrestaShop
-*
+* ArsenalPay Payment Module v1.0.0 
+* 
 * NOTICE OF LICENSE
 *
 * This source file is subject to the Academic Free License (AFL 3.0)
@@ -17,10 +17,9 @@
 * versions in the future. If you wish to customize PrestaShop for your
 * needs please refer to http://www.prestashop.com for more information.
 *
-*  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2014 PrestaShop SA
+*  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
+*  @copyright  Copyright (c) 2014 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
-*  International Registered Trademark & Property of PrestaShop SA
 *}
 
 {capture name=path}

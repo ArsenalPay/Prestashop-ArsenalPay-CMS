@@ -1,4 +1,27 @@
 <?php
+/*
+* ArsenalPay Payment Module v1.0.0 
+* 
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@prestashop.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
+*  @copyright  Copyright (c) 2014 ArsenalPay (http://www.arsenalpay.ru)
+*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*/
 if(!defined('_PS_VERSION_')) {
 	exit;
 }
@@ -35,18 +58,12 @@ class ArsenalPayValidationModuleFrontController extends ModuleFrontController
 
 		$currency = $this->context->currency;
 		$total = (float)$cart->getOrderTotal(true, Cart::BOTH);
-		//$order_state = new OrderState(Configuration::get('PS_OS_BANKWIRE'));
-		//echo (int)Order::getOrderByCartId($cart->id);
-		//$order = new Order((int)Order::getOrderByCartId($cart->id));
-		//var_dump($order);
-		//						$new_history = new OrderHistory();
-		//						$new_history->id_order = (int)$order->id;
-		//						$new_history->changeIdOrderState((int)$order_state, $order, true);
-		//						$new_history->addWithemail(true);
+                
+                //Validate order. Cart is emptied here. 
+                $this->module->validateOrder($cart->id, Configuration::get('PS_OS_BANKWIRE'), $total, $this->module->displayName, NULL, '', (int)$currency->id, false,$customer->secure_key);
 		
-		
-		$config = $this->module->am_config;
-		
+                //Prepare data to show in payment form.
+                $config = $this->module->am_config;
 		$this->context->smarty->assign(array(
 			'nbProducts' => $cart->nbProducts(),
 			'cust_currency' => $cart->id_currency,
@@ -56,8 +73,6 @@ class ArsenalPayValidationModuleFrontController extends ModuleFrontController
 			'this_path' => $this->module->getPathUri(),
                         'this_path_am' => $this->module->getPathUri(),
 			'this_path_ssl' => Tools::getShopDomainSsl(true, true).__PS_BASE_URI__.'modules/'.$this->module->name.'/',
-			
-			
 			'ap_token' => $config['arsenalpay_token'],
 			'other_code' => $config['arsenalpay_other_code'],
 			'key' => $config['arsenalpay_key'],
@@ -67,13 +82,10 @@ class ArsenalPayValidationModuleFrontController extends ModuleFrontController
 			'check_url' => $config['arsenalpay_check_url'],
 			'srcc' => $config['arsenalpay_srcc'],
 			'frame_url' => $config['arsenalpay_frame_url'],
-            'frame_mode' => $config['arsenalpay_frame_mode'],
+                        'frame_mode' => $config['arsenalpay_frame_mode'],
 			'frame_params' => $config['arsenalpay_frame_params'],
 		));
 		
 		$this->setTemplate('payment_execution.tpl');
-		$order_state = new OrderState(Configuration::get('PS_OS_BANKWIRE'));
-		$this->module->validateOrder($cart->id, Configuration::get('PS_OS_BANKWIRE'), $total, $this->module->displayName, NULL, '', (int)$currency->id, false,$customer->secure_key);
-
 	}
 }

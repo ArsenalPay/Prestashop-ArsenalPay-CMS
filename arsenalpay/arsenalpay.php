@@ -1,4 +1,27 @@
 <?php
+/*
+* ArsenalPay Payment Module v1.0.0 
+* 
+* NOTICE OF LICENSE
+*
+* This source file is subject to the Academic Free License (AFL 3.0)
+* that is bundled with this package in the file LICENSE.txt.
+* It is also available through the world-wide-web at this URL:
+* http://opensource.org/licenses/afl-3.0.php
+* If you did not receive a copy of the license and are unable to
+* obtain it through the world-wide-web, please send an email
+* to license@prestashop.com so we can send you a copy immediately.
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade PrestaShop to newer
+* versions in the future. If you wish to customize PrestaShop for your
+* needs please refer to http://www.prestashop.com for more information.
+*
+*  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
+*  @copyright  Copyright (c) 2014 ArsenalPay (http://www.arsenalpay.ru)
+*  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+*/
 if (!defined('_PS_VERSION_')) {
 	exit;
 }
@@ -31,7 +54,7 @@ class ArsenalPay extends PaymentModule
 			'arsenalpay_check_url',
 			'arsenalpay_srcc',
 			'arsenalpay_frame_url',
-            'arsenalpay_frame_mode',
+                        'arsenalpay_frame_mode',
 			'arsenalpay_frame_params',
 		));
 	$this->bootstrap = true;		
@@ -67,30 +90,6 @@ class ArsenalPay extends PaymentModule
         Configuration::updateValue('arsenalpay_frame_url', 'https://arsenalpay.ru/payframe/pay.php');
         Configuration::updateValue('arsenalpay_frame_params', "width='500' height='500'");
         Configuration::updateValue('arsenalpay_frame_mode', "1");
-		// create new order status in case ArsenalPay method is chosen but is not still processing
-		/*$values_to_insert = array(
-		'invoice' => 1,
-		'send_email' => 1,
-		'module_name' => $this->name,
-		'color' => 'RoyalBlue',
-		'unremovable' => 0,
-		'hidden' => 0,
-		'logable' => 1,
-		'delivery' => 0,
-		'shipped' => 0,
-		'paid' => 1,
-		'deleted' => 0);
-
-		if(!Db::getInstance()->autoExecute(_DB_PREFIX_.'order_state', $values_to_insert, 'INSERT'))
-			return false;
-$id_order_state = (int)Db::getInstance()->Insert_ID();
-$languages = Language::getLanguages(false);
-foreach ($languages as $language)
-Db::getInstance()->autoExecute(_DB_PREFIX_.'order_state_lang', array('id_order_state'=>$id_order_state, 'id_lang'=>$language['id_lang'], 'name'=>'Status name', 'template'=>''), 'INSERT');
-if (!@copy(dirname(__FILE__).DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'logo.gif', _PS_ROOT_DIR_.DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR.'os'.DIRECTORY_SEPARATOR.$id_order_state.'.gif'))
-return false;
-Configuration::updateValue('PS_OS_STATUSNAME', $id_order_state);
-unset($id_order_state);*/
 		
         return true;
     }
@@ -107,8 +106,10 @@ unset($id_order_state);*/
             !Configuration::deleteByName('arsenalpay_srcc')||
             !Configuration::deleteByName('arsenalpay_frame_url')||
             !Configuration::deleteByName('arsenalpay_frame_params')||
-            !parent::uninstall())
-            return false;
+            !parent::uninstall()) 
+            {
+                return false;
+            }
         return true;
     }
     
@@ -123,7 +124,6 @@ unset($id_order_state);*/
                 elseif (!Tools::getValue('arsenalpay_callback_url'))
                     $this->_postErrors[] = $this->l('Callback URL is required to receive payment confirmations.');
 		}
-
     }
 
     private function _postProcess()
@@ -308,10 +308,5 @@ unset($id_order_state);*/
 		));
         return $this->display(__FILE__, 'arsenalpay.tpl');
     }
-
-	/*public function hookdisplayHeader($params)
-    {
-      //  $this->context->controller->addCSS(($this->_path).'arsenalpay.css', 'all');
-    }*/
 }
 ?>
