@@ -3,7 +3,7 @@
 	<name>arsenalpay</name>
 	<displayName><![CDATA[ArsenalPay]]></displayName>
 	<version><![CDATA[1.0.0]]></version>
-	<description><![CDATA[Accept payments with ArsenalPay payment gateway]]></description>
+	<description><![CDATA[Accept payments with ArsenalPay]]></description>
 	<author><![CDATA[ArsenalMedia Dev.]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>
 	<confirmUninstall><![CDATA[Are you sure you want to delete your details?]]></confirmUninstall>

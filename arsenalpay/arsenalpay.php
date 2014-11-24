@@ -35,8 +35,8 @@ class ArsenalPay extends PaymentModule
     {
         $this->name = 'arsenalpay';        
         $this->tab = 'payments_gateways';
-        $this->version = 1.0;
-		$this->author = 'ArsenalMedia';
+        $this->version = '1.0.0';
+		$this->author = 'ArsenalMedia Dev.';
 		$this->controllers = array('payment', 'validation','callback');
         
         $this->currencies = true;
@@ -54,7 +54,7 @@ class ArsenalPay extends PaymentModule
 			'arsenalpay_check_url',
 			'arsenalpay_srcc',
 			'arsenalpay_frame_url',
-                        'arsenalpay_frame_mode',
+            'arsenalpay_frame_mode',
 			'arsenalpay_frame_params',
 		));
 	$this->bootstrap = true;		
@@ -142,7 +142,7 @@ class ArsenalPay extends PaymentModule
             Configuration::updateValue('arsenalpay_frame_params', $_POST['arsenalpay_frame_params']);
 
         }
-        $this->_html .= '<div class="conf confirm"><img src="../img/admin/ok.gif" alt="'.$this->l('OK').'" /> '.$this->l('Settings updated').'</div>';
+        $this->_html .= '<div class="conf confirm"><img src="../img/admin/ok.gif" alt="'.$this->l('OK').'" /> '.$this->l('Settings have been updated').'</div>';
     }
     
     private function _displayArsenalpay()
@@ -173,8 +173,8 @@ class ArsenalPay extends PaymentModule
                 <table border="0" width="500" cellpadding="0" cellspacing="0" id="form">
                     <tr>
 						<td valign="top" width="50%">
-							<label for="token">Токен</label>
-							<span class="annotation">Уникальный токен, который присваивается ТСП для работы с фреймом, обязательный.</span>
+							<label for="token">'.$this->l('Unique token').'</label><span style="color:red"> *</span>
+							<span class="annotation">'.$this->l('Assigned to merchant for access to ArsenalPay payment frame.').'</span>
 						</td>
 						<td>
 							<input type="text" name="arsenalpay_token" value="'.htmlentities(Tools::getValue('arsenalpay_token', $this->am_config['arsenalpay_token']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
@@ -182,62 +182,26 @@ class ArsenalPay extends PaymentModule
 					</tr>
                     <tr>
 						<td valign="top" width="50%">
-							<label for="token">Другой код</label>
-							<span class="annotation">дополнительный номер или код, необходимый для оплаты. Недоступен для редактирования абоненту и не отображается в случае, если задан, необязательный.</span>
+							<label for="token">'.$this->l('Other code').'</label>
+							<span class="annotation">'.$this->l('Additional number or code which can be required for payment. Not available to edit by payer and not displayed when is set here. Optional.').'</span>
 						</td>
 						<td>
 							<input type="text" name="arsenalpay_other_code" value="'.htmlentities(Tools::getValue('arsenalpay_other_code', $this->am_config['arsenalpay_other_code']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
 						</td>
 					</tr>
-                    <tr>
+					 <tr>
 						<td valign="top" width="50%">
-							<label for="token">Пароль для проверки</label>
-							<span class="annotation">Ключ (key) для проверки подписи запросов, обязательный</span>
+							<label for="token">'.$this->l('Frame URL').'</label><span style="color:red"> *</span>
+							<span class="annotation">'.$this->l('URL-address of ArsenalPay payment frame.').'</span>
 						</td>
 						<td>
-							<input type="text" name="arsenalpay_key" value="'.htmlentities(Tools::getValue('arsenalpay_key', $this->am_config['arsenalpay_key']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
+							<input type="text" name="arsenalpay_frame_url" value="'.htmlentities(Tools::getValue('arsenalpay_frame_url', $this->am_config['arsenalpay_frame_url']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
 						</td>
 					</tr>
-                    <tr>
+					<tr>
 						<td valign="top" width="50%">
-							<label for="token">Параметр css</label>
-							<span class="annotation">адрес (URL) CSS файла, необязательный.</span>
-						</td>
-						<td>
-							<input type="text" name="arsenalpay_css" value="'.htmlentities(Tools::getValue('arsenalpay_css', $this->am_config['arsenalpay_css']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
-						</td>
-					</tr>
-                    <tr>
-						<td valign="top" width="50%">
-							<label for="token">IP-адрес</label>
-							<span class="annotation">IP-адрес, с которого возможен запрос от АМ, обязательный</span>
-						</td>
-						<td>
-							<input type="text" name="arsenalpay_ip_adress" value="'.htmlentities(Tools::getValue('arsenalpay_ip_adress', $this->am_config['arsenalpay_ip_adress']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
-						</td>
-					</tr>
-                    <tr>
-						<td valign="top" width="50%">
-							<label for="token">Url колбэка</label>
-							<span class="annotation">УРЛ колбэка платежа, обязательный</span>
-						</td>
-						<td>
-							<input type="text" name="arsenalpay_callback_url" value="'.htmlentities(Tools::getValue('arsenalpay_callback_url', $this->am_config['arsenalpay_callback_url']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
-						</td>
-					</tr>
-                    <tr>
-						<td valign="top" width="50%">
-							<label for="token">Url проверки номера получателя</label>
-							<span class="annotation">УРЛ проверки номера получателя, необязательный</span>
-						</td>
-						<td>
-							<input type="text" name="arsenalpay_check_url" value="'.htmlentities(Tools::getValue('arsenalpay_check_url', $this->am_config['arsenalpay_check_url']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
-						</td>
-					</tr>
-                    <tr>
-						<td valign="top" width="50%">
-							<label for="token">Параметр src</label>
-							<span class="annotation">Тип платежа. Возможные варианты: «mk» - оплата с мобильного телефона (мобильная коммерция), «card» - оплата с пластиковой карты (интернет эквайринг), необязательный.</span>
+							<label for="token">'.$this->l('src parameter').'</label><span style="color:red"> *</span>
+							<span class="annotation">'.$this->l('Payment type. Possible values:').' <b>mk</b> - '.$this->l('payment from mobile phone account (mobile-commerce).').' <b>card </b>- '.$this->l('payment from plastic card (internet acquiring).').'</span>
 						</td>
 						<td>
 							<input type="text" name="arsenalpay_srcc" value="'.htmlentities(Tools::getValue('arsenalpay_srcc', $this->am_config['arsenalpay_srcc']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
@@ -245,17 +209,53 @@ class ArsenalPay extends PaymentModule
 					</tr>
                     <tr>
 						<td valign="top" width="50%">
-							<label for="token">Url фрейма</label>
-							<span class="annotation">Адрес фрейма, обязательный</span>
+							<label for="token">'.$this->l('css parameter').'</label>
+							<span class="annotation">'.$this->l('URL-address of CSS file if exists. Optional.').'</span>
 						</td>
 						<td>
-							<input type="text" name="arsenalpay_frame_url" value="'.htmlentities(Tools::getValue('arsenalpay_frame_url', $this->am_config['arsenalpay_frame_url']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
+							<input type="text" name="arsenalpay_css" value="'.htmlentities(Tools::getValue('arsenalpay_css', $this->am_config['arsenalpay_css']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
+						</td>
+					</tr>
+                    <tr>
+						<td valign="top" width="50%">
+							<label for="token">'.$this->l('Sign key').'</label><span style="color:red"> *</span>
+							<span class="annotation">'.$this->l('With this key you check a validity of sign that comes with callback payment data.').'</span>
+						</td>
+						<td>
+							<input type="text" name="arsenalpay_key" value="'.htmlentities(Tools::getValue('arsenalpay_key', $this->am_config['arsenalpay_key']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
+						</td>
+					</tr>
+                    <tr>
+						<td valign="top" width="50%">
+							<label for="token">'.$this->l('Allowed IP address').'</label>
+							<span class="annotation">'.$this->l('It can be allowed to receive ArsenalPay payment confirmation callback requests only from IP address pointed out here.').'</span>
+						</td>
+						<td>
+							<input type="text" name="arsenalpay_ip_adress" value="'.htmlentities(Tools::getValue('arsenalpay_ip_adress', $this->am_config['arsenalpay_ip_adress']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
+						</td>
+					</tr>
+                    <tr>
+						<td valign="top" width="50%">
+							<label for="token">'.$this->l('Callback URL').'</label><span style="color:red"> *</span>
+							<span class="annotation">'.$this->l('For payment confirmation.').'</span>
+						</td>
+						<td>
+							<input type="text" name="arsenalpay_callback_url" value="'.htmlentities(Tools::getValue('arsenalpay_callback_url', $this->am_config['arsenalpay_callback_url']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
+						</td>
+					</tr>
+                    <tr>
+						<td valign="top" width="50%">
+							<label for="token">'.$this->l('Check URL').'</label>
+							<span class="annotation">'.$this->l('To check an order number before payment processing. Optional.').'</span>
+						</td>
+						<td>
+							<input type="text" name="arsenalpay_check_url" value="'.htmlentities(Tools::getValue('arsenalpay_check_url', $this->am_config['arsenalpay_check_url']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
 						</td>
 					</tr>
                     <tr>                          
                                                 <td valign="top" width="50%">
-							<label for="token">Режим отображения фрейма</label>
-							<span class="annotation">"1"-отображать во фрейме, иначе на всю страницу.</span>
+							<label for="token">'.$this->l('Frame mode').'</label>
+							<span class="annotation"><b>1</b> '.$this->l('will mean that frame will be displayed inside your site, otherwise it will be displayed outside in a frame page.').'</span>
 						</td>
 						<td>
 							<input type="text" name="arsenalpay_frame_mode" value="'.htmlentities(Tools::getValue('arsenalpay_frame_mode', $this->am_config['arsenalpay_frame_mode']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
@@ -263,8 +263,8 @@ class ArsenalPay extends PaymentModule
 					</tr>
                     <tr>
 						<td valign="top" width="50%">
-							<label for="token">Дополнительные параметры фрейма</label>
-							<span class="annotation">Параметры фрейма</span>
+							<label for="token">'.$this->l('Payment frame additional parameters').'</label>
+							<span class="annotation">'.$this->l('Here you can set ifame parameters and so modify how ArsenalPay payment frame will be displayed.').'</span>
 						</td>
 						<td>
 							<input type="text" name="arsenalpay_frame_params" value="'.htmlentities(Tools::getValue('arsenalpay_frame_params', $this->am_config['arsenalpay_frame_params']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
