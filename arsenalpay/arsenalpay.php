@@ -46,7 +46,6 @@ class ArsenalPay extends PaymentModule
 	$this->notify_url = $protocol_link.$_SERVER['HTTP_HOST'].__PS_BASE_URI__.'modules/arsenalpay/callback.php';
         $this->am_config = Configuration::getMultiple(array(
 			'arsenalpay_token',
-			'arsenalpay_other_code',
 			'arsenalpay_key',
 			'arsenalpay_css',
 			'arsenalpay_ip_adress',
@@ -97,7 +96,6 @@ class ArsenalPay extends PaymentModule
     function uninstall()
     {
         if (!Configuration::deleteByName('arsenalpay_token')||
-            !Configuration::deleteByName('arsenalpay_other_code')||
             !Configuration::deleteByName('arsenalpay_key')||
             !Configuration::deleteByName('arsenalpay_css')||
             !Configuration::deleteByName('arsenalpay_ip_adress')||
@@ -131,7 +129,6 @@ class ArsenalPay extends PaymentModule
         if (isset($_POST['btnSubmit']))
         {
             Configuration::updateValue('arsenalpay_token', $_POST['arsenalpay_token']);
-            Configuration::updateValue('arsenalpay_other_code', $_POST['arsenalpay_other_code']);
             Configuration::updateValue('arsenalpay_key', $_POST['arsenalpay_key']);
             Configuration::updateValue('arsenalpay_css', $_POST['arsenalpay_css']);
             Configuration::updateValue('arsenalpay_ip_adress', $_POST['arsenalpay_ip_adress']);
@@ -178,15 +175,6 @@ class ArsenalPay extends PaymentModule
 						</td>
 						<td>
 							<input type="text" name="arsenalpay_token" value="'.htmlentities(Tools::getValue('arsenalpay_token', $this->am_config['arsenalpay_token']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
-						</td>
-					</tr>
-                    <tr>
-						<td valign="top" width="50%">
-							<label for="token">'.$this->l('Other code').'</label>
-							<span class="annotation">'.$this->l('Additional number or code which can be required for payment. Not available to edit by payer and not displayed when is set here. Optional.').'</span>
-						</td>
-						<td>
-							<input type="text" name="arsenalpay_other_code" value="'.htmlentities(Tools::getValue('arsenalpay_other_code', $this->am_config['arsenalpay_other_code']), ENT_COMPAT, 'UTF-8').'" style="width: 300px;" />
 						</td>
 					</tr>
 					 <tr>

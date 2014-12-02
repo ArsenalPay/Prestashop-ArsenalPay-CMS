@@ -14,8 +14,6 @@ $_MODULE['<{arsenalpay}prestashop>arsenalpay_ca23f8587b6c0c9778266512e7175f67'] 
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_254f642527b45bc260048e30704edb39'] = 'Конфигурация';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_dff93ef70c2940e06ed224af4e8af572'] = 'Уникальный токен';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_989245a334d9b52265b549910524d88f'] = 'Присваивается предприятию для доступа к платежному фрейму.\"';
-$_MODULE['<{arsenalpay}prestashop>arsenalpay_63b91724e0fbc352bd7b6ca1ce6a6796'] = 'Другой код';
-$_MODULE['<{arsenalpay}prestashop>arsenalpay_0ee0b39eb032faa7af6dd53c83a26a2c'] = 'Дополнительный номер или код, необходимый для оплаты. Недоступен для редактирования плательщику и не отображается в случае, если задан. Необязательный.';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_c8f2c7aa04b8080f5d0bb020dc886d82'] = 'URL-адрес фрейма';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_ce3236d1765c7749f2b83cc6ce33bce8'] = 'URL-адрес платежного фрейма ArsenalPay.';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_9ad6d0092a625412a909be5e083d3ea5'] = 'Параметр src';
