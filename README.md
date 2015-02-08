@@ -20,8 +20,8 @@ Basic feature list:
  * Supports two languages (Russian, English).
  
 ## How to install 
-1. Download the ArsenalPay payment module from http://github... 
-2. Upload the **arsenalpay** directory to your PrestaShop **modules** directory
+1. Download the ArsenalPay payment module from `https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS` 
+2. Upload the **arsenalpay** directory from the archive to your PrestaShop **modules** directory
 2. Login to the PrestaShop admin section 
 3. Go to **Modules** under **Modules** on the left side menu
 3. Find **ArsenalPay** in the list of extensions 
@@ -61,7 +61,7 @@ After successful install and proper settings new choice of payment method with A
 
 ------------------
 ### О МОДУЛЕ
-* Модуль платежной системы ArsenalPay под Joomshopping позволяет легко встроить платежную страницу на Ваш сайт.
+* Модуль платежной системы ArsenalPay под Prestashop позволяет легко встроить платежную страницу на Ваш сайт.
 * После установки модуля у Вас появится новый вариант оплаты товаров и услуг через платежную систему ArsenalPay.
 * Платежная система ArsenalPay позволяет совершать оплату с различных источников списания средств: мобильных номеров (МТС/Мегафон/Билайн/TELE2), пластиковых карт (VISA/MasterCard/Maestro). Перечень доступных источников средств постоянно пополняется. Следите за обновлениями.
 * Модуль поддерживает русский и английский языки.
