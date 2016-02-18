@@ -1,6 +1,6 @@
 <?php
 /*
-* ArsenalPay Payment Module v1.0.0 
+* ArsenalPay Payment Module v1.0.1 
 * 
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
-*  @copyright  Copyright (c) 2014 ArsenalPay (http://www.arsenalpay.ru)
+*  @copyright  Copyright (c) 2014-2016 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 if (!defined('_PS_VERSION_')) 
@@ -31,7 +31,7 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
     {
 	public $ssl = true;
 	public $display_column_left = false;
-        public $str_log;
+    public $str_log;
 	/**
 	 * @see FrontController::initContent()
 	 */
@@ -88,11 +88,27 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
                 */
                 $id_order = Order::getOrderByCartId($ars_callback['ACCOUNT']);
                 $objOrder = new Order($id_order);
-		if( !( $this->_checkSign( $ars_callback, $KEY) ) ) 
+		        if( !( $this->_checkSign( $ars_callback, $KEY) ) ) 
                     {
                         $objOrder->setCurrentState(_PS_OS_ERROR_);
-			$this->exitf( 'ERR_INVALID_SIGN' );   
+			            $this->exitf( 'ERR_INVALID_SIGN' );   
                     }
+                $lessAmount = false;
+                $total = floatval($objOrder->total_paid);
+                if( $ars_callback['MERCH_TYPE'] == 0 && $total == $ars_callback['AMOUNT'] ) 
+                    {
+                        $lessAmount = false;
+                    }
+                elseif( $ars_callback['MERCH_TYPE'] == 1 && $total >= $ars_callback['AMOUNT'] 
+                                                        && $total == $ars_callback['AMOUNT_FULL'] ) 
+                    {
+                        $lessAmount = true;
+                    }
+                else 
+                    {
+                        $this->exitf( 'ERR_AMOUNT' );
+                    }
+
                     
                 if( $ars_callback['FUNCTION'] == "check" && $ars_callback['STATUS'] == "check" )
                     {
@@ -103,13 +119,17 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
                                 YES - account exists
                                 NO - account not exists
                         */
-                        if ($id_order == NULL)
+                        if ( Validate::isLoadedObject($objOrder) )
                             {
-                               $objOrder->setCurrentState(_PS_OS_ERROR_);
-                               $this->exitf( 'NO' );
+                                $objOrder->setCurrentState(_PS_OS_PREPARATION_);
+                                $this->exitf( 'YES' ); 
                             }
-			$objOrder->setCurrentState(_PS_OS_PREPARATION_);
-                        $this->exitf( 'YES' );
+                        else 
+                            {
+                                $objOrder->setCurrentState(_PS_OS_ERROR_);
+                                $this->exitf( 'NO' );
+                            }
+			            
                     }
                 elseif( $ars_callback['FUNCTION']=="payment" && $ars_callback['STATUS'] == "payment" )
                     {
@@ -122,14 +142,22 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
 							
                         $dbResult = Db::getInstance()->executeS('SELECT `id_order_state` FROM `'._DB_PREFIX_
                                 .'order_state_lang` WHERE `template` = "payment" GROUP BY `template`;');
-								
+					    if( $lessAmount ) 
+                            {
+                                $logMsg = "Order #{$id_order} - payment with less amount {$ars_callback['AMOUNT']}"; 
+                            }
+                        else 
+                            {
+                                $logMsg = "Order #{$id_order} - payment with full amount {$total}";
+                            }
+                        $this->log($logMsg);
                         $newOrderState = (int)$dbResult[0]['id_order_state'];		   
                         $objOrder->setCurrentState($newOrderState);
                         $this->exitf('OK');
                     }
                 else 
                     { 
-			$objOrder->setCurrentState(_PS_OS_ERROR_);
+			            $objOrder->setCurrentState(_PS_OS_ERROR_);
                         $this->exitf('ERR');
                     }
             }    
@@ -150,5 +178,14 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
 
                 echo $msg;
                 exit;
+            }
+        public function log($msg)
+            {
+                // Saving income params into log file:
+                $fp = fopen(dirname(__FILE__).'/callback.log', 'a+');
+                fwrite($fp, $this->str_log." ".$msg."\r\n");
+                fclose($fp);
+
+                echo $msg;
             }
     }

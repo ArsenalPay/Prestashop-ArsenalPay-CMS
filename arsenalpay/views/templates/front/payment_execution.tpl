@@ -33,6 +33,6 @@
 	<p class="warning">{l s='Your shopping cart is empty.' mod='arsenalpay'}</p>
 {else}
 
-<iframe src="{$frame_url}?src={$srcc}&t={$ap_token}&n={$order_id}&a={$total}&s={$other_code}&frame={$frame_mode}&css={$css}" {$frame_params}></iframe>	
+<iframe <?=$frame_params?> src="{$frame_url}?src={$srcc}&t={$ap_token}&n={$order_id}&a={$total}&s={$other_code}&frame={$frame_mode}&css={$css}"></iframe>	
 
 {/if}

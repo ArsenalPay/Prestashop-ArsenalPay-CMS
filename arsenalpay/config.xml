@@ -2,7 +2,7 @@
 <module>
 	<name>arsenalpay</name>
 	<displayName><![CDATA[ArsenalPay]]></displayName>
-	<version><![CDATA[1.0.0]]></version>
+	<version><![CDATA[1.0.1]]></version>
 	<description><![CDATA[Accept payments with ArsenalPay]]></description>
 	<author><![CDATA[ArsenalMedia Dev.]]></author>
 	<tab><![CDATA[payments_gateways]]></tab>

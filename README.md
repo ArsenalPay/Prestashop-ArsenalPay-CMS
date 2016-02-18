@@ -1,11 +1,10 @@
 # ArsenalPay for PrestaShop CMS
 
-*Arsenal Media LLC*
-
+*Arsenal Media LLC*  
 [Arsenal Pay processing center](https://arsenalpay.ru/)
 
 ## Version
-1.0.0
+1.0.1
 
 *Has been tested on PrestaShop 1.6*
 
@@ -139,8 +138,7 @@ ArsenalPay – увеличить прибыль просто!
 
 Всегда с радостью ждем ваших писем с предложениями. 
 
-pay@arsenalpay.ru 
-
+pay@arsenalpay.ru  
 [arsenalpay.ru](https://arsenalpay.ru)
  
 

@@ -1,6 +1,6 @@
 <?php
 /*
-* ArsenalPay Payment Module v1.0.0 
+* ArsenalPay Payment Module v1.0.1 
 * 
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
-*  @copyright  Copyright (c) 2014 ArsenalPay (http://www.arsenalpay.ru)
+*  @copyright  Copyright (c) 2014-2016 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 if (!defined('_PS_VERSION_')) {
@@ -35,7 +35,7 @@ class ArsenalPay extends PaymentModule
     {
         $this->name = 'arsenalpay';        
         $this->tab = 'payments_gateways';
-        $this->version = '1.0.0';
+        $this->version = '1.0.1';
 		$this->author = 'ArsenalMedia Dev.';
 		$this->controllers = array('payment', 'validation','callback');
         
@@ -43,7 +43,7 @@ class ArsenalPay extends PaymentModule
         $this->currencies_mode = 'radio';
         $protocol_link = $this->usingSecureMode() ? 'https://' : 'http://';
 
-	$this->notify_url = $protocol_link.$_SERVER['HTTP_HOST'].__PS_BASE_URI__.'modules/arsenalpay/callback.php';
+	    $this->notify_url = $protocol_link.$_SERVER['HTTP_HOST'].__PS_BASE_URI__.'index.php?fc=module&module=arsenalpay&controller=callback';
         $this->am_config = Configuration::getMultiple(array(
 			'arsenalpay_token',
 			'arsenalpay_key',
@@ -87,7 +87,7 @@ class ArsenalPay extends PaymentModule
         }
         Configuration::updateValue('arsenalpay_callback_url', $this->notify_url);
         Configuration::updateValue('arsenalpay_frame_url', 'https://arsenalpay.ru/payframe/pay.php');
-        Configuration::updateValue('arsenalpay_frame_params', "width='500' height='500'");
+        Configuration::updateValue('arsenalpay_frame_params', "height='500' width='600' scrolling='no' seamless='' frameborder='no'");
         Configuration::updateValue('arsenalpay_frame_mode', "1");
 		
         return true;

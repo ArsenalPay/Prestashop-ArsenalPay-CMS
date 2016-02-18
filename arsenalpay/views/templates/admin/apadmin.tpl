@@ -97,7 +97,7 @@
 						</td>
 					</tr>
                     <tr>                          
-                                                <td valign="top" width="50%">
+                        <td valign="top" width="50%">
 							<label for="token">Режим отображения фрейма</label>
 							<span class="annotation">"1"-отображать во фрейме, иначе на всю страницу.</span>
 						</td>
