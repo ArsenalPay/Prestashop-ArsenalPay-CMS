@@ -56,7 +56,7 @@ class ArsenalPay extends PaymentModule
             'arsenalpay_frame_mode',
 			'arsenalpay_frame_params',
 		));
-	$this->bootstrap = true;		
+	    $this->bootstrap = true;		
         parent::__construct();
         /* The parent construct is required for translations */
         
@@ -64,8 +64,9 @@ class ArsenalPay extends PaymentModule
         $this->displayName = 'ArsenalPay';
         $this->description = $this->l('Accept payments with ArsenalPay');
         $this->confirmUninstall = $this->l('Are you sure you want to delete your details?');
-        if (!isset($this->am_config['arsenalpay_token']) || !isset($this->am_config['arsenalpay_key']) || !isset($this->am_config['arsenalpay_srcc']))
+        if (!isset($this->am_config['arsenalpay_token']) || !isset($this->am_config['arsenalpay_key']) || !isset($this->am_config['arsenalpay_srcc'])) {
             $this->warning = $this->l('Token, key and payment type details must be configured before using this module.');
+        }
     }    
     
     public function usingSecureMode()
@@ -113,14 +114,16 @@ class ArsenalPay extends PaymentModule
     
     private function _postValidation()
     {
-        if (Tools::isSubmit('btnSubmit'))
-            {
-                if (!Tools::getValue('arsenalpay_token'))
-                    $this->_postErrors[] = $this->l('Token is required to accept payments.');
-		elseif (!Tools::getValue('arsenalpay_key'))
-                    $this->_postErrors[] = $this->l('Key is required to check a validation of request sign.');
-                elseif (!Tools::getValue('arsenalpay_callback_url'))
-                    $this->_postErrors[] = $this->l('Callback URL is required to receive payment confirmations.');
+        if (Tools::isSubmit('btnSubmit')) {
+            if (!Tools::getValue('arsenalpay_token')) {
+                $this->_postErrors[] = $this->l('Token is required to accept payments.');
+            }
+            elseif (!Tools::getValue('arsenalpay_key')) {
+                $this->_postErrors[] = $this->l('Key is required to check a validation of request sign.');
+            }
+            elseif (!Tools::getValue('arsenalpay_callback_url')) {
+                $this->_postErrors[] = $this->l('Callback URL is required to receive payment confirmations.');
+            }
 		}
     }
 
@@ -137,7 +140,6 @@ class ArsenalPay extends PaymentModule
             Configuration::updateValue('arsenalpay_srcc', $_POST['arsenalpay_srcc']);
             Configuration::updateValue('arsenalpay_frame_url', $_POST['arsenalpay_frame_url']);
             Configuration::updateValue('arsenalpay_frame_params', $_POST['arsenalpay_frame_params']);
-
         }
         $this->_html .= '<div class="conf confirm"><img src="../img/admin/ok.gif" alt="'.$this->l('OK').'" /> '.$this->l('Settings have been updated').'</div>';
     }
