@@ -41,8 +41,8 @@ class ArsenalpayPaymentModuleFrontController extends ModuleFrontController
 		$order_total = $this->context->cart->getOrderTotal(true);
 		$format_total = number_format($order_total, 2, '.', '');
 		$this->context->smarty->assign(array(
-                            'total' => Tools::displayPrice($format_total, $currency),
-                ));
+			'total' => Tools::displayPrice($format_total, $currency),
+		));
 		
 		$this->setTemplate('order_summary.tpl');
 	}

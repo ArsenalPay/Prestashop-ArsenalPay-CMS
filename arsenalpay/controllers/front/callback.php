@@ -28,16 +28,14 @@ if (!defined('_PS_VERSION_')) {
 
 class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
 {
-	public $ssl = true;
-	public $display_column_left = false;
+    public $ssl = true;
+    public $display_column_left = false;
     public $str_log;
-	/**
-	 * @see FrontController::initContent()
-	 */
-	public function initContent()
+    /**
+     * @see FrontController::postProcess()
+     */
+    public function postProcess()
     {
-		parent::initContent();
-
         $ars_callback = $_POST;
         $config = $this->module->am_config;
         $REMOTE_ADDR = $_SERVER["REMOTE_ADDR"];
@@ -47,7 +45,7 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
         if (strlen($IP_ALLOW) > 0 && $IP_ALLOW != $REMOTE_ADDR) {
             $this->exitf('ERR_IP');
         }
-         
+
         $keyArray = array
         (
             'ID',           /* Идентификатор ТСП/ merchant identifier */
@@ -64,10 +62,10 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
              //* = md5(md5(ID).md(FUNCTION).md5(RRN).md5(PAYER).md5(AMOUNT).md5(ACCOUNT).md(STATUS).md5(PASSWORD)) */
         );
         /**
-        * Checking the absence of each parameter in the post request.
-        * Проверка на присутствие каждого из параметров и их значений в передаваемом запросе.
-        */
-        
+         * Checking the absence of each parameter in the post request.
+         * Проверка на присутствие каждого из параметров и их значений в передаваемом запросе.
+         */
+
         foreach ($keyArray as $key) {
             if( empty($ars_callback[$key]) || !array_key_exists($key, $ars_callback)) {
                 $this->exitf('ERR_'.$key);
@@ -79,8 +77,8 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
 
         //======================================
         /**
-        * Checking validness of the request sign.
-        */
+         * Checking validness of the request sign.
+         */
         $id_order = Order::getOrderByCartId($ars_callback['ACCOUNT']);
         $objOrder = new Order($id_order);
         if (!($this->_checkSign( $ars_callback, $KEY))) {
@@ -108,6 +106,7 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
                     NO - account not exists
             */
             if (Validate::isLoadedObject($objOrder)) {
+                $objOrder->setCurrentState(_PS_OS_PREPARATION_);
                 $this->exitf('YES');
             }
             else {
@@ -125,7 +124,7 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
              */
 
             $dbResult = Db::getInstance()->executeS('SELECT `id_order_state` FROM `'._DB_PREFIX_
-                    .'order_state_lang` WHERE `template` = "payment" GROUP BY `template`;');
+                .'order_state_lang` WHERE `template` = "payment" GROUP BY `template`;');
             if ($lessAmount) {
                 $logMsg = "Order #{$id_order} - payment with less amount {$ars_callback['AMOUNT']}";
             }
