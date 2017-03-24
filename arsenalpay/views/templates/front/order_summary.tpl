@@ -1,5 +1,5 @@
 {*
-* ArsenalPay Payment Module v1.0.0 
+* ArsenalPay Payment Module v1.0.2
 * 
 * NOTICE OF LICENSE
 *
@@ -18,7 +18,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
-*  @copyright  Copyright (c) 2014 ArsenalPay (http://www.arsenalpay.ru)
+*  @copyright  Copyright (c) 2014-2017 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *}	
 {capture name=path}

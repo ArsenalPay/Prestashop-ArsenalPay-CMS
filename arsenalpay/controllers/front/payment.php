@@ -1,6 +1,6 @@
 <?php
 /*
-* ArsenalPay Payment Module v1.0.1 
+* ArsenalPay Payment Module v1.0.2 
 * 
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
-*  @copyright  Copyright (c) 2014-2016 ArsenalPay (http://www.arsenalpay.ru)
+*  @copyright  Copyright (c) 2014-2017 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 if (!defined('_PS_VERSION_')) {
@@ -41,8 +41,8 @@ class ArsenalpayPaymentModuleFrontController extends ModuleFrontController
 		$order_total = $this->context->cart->getOrderTotal(true);
 		$format_total = number_format($order_total, 2, '.', '');
 		$this->context->smarty->assign(array(
-                            'total' => Tools::displayPrice($format_total, $currency),
-                ));
+			'total' => Tools::displayPrice($format_total, $currency),
+		));
 		
 		$this->setTemplate('order_summary.tpl');
 	}
