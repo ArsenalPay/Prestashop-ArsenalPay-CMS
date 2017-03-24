@@ -4,7 +4,7 @@
 [Arsenal Pay processing center](https://arsenalpay.ru/)
 
 ## Version
-1.0.1
+1.0.2
 
 *Has been tested on PrestaShop 1.6*
 

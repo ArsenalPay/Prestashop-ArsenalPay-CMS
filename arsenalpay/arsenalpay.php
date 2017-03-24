@@ -1,6 +1,6 @@
 <?php
 /*
-* ArsenalPay Payment Module v1.0.1 
+* ArsenalPay Payment Module v1.0.2 
 * 
 * NOTICE OF LICENSE
 *

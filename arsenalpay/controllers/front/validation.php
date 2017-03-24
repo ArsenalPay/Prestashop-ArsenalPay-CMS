@@ -1,6 +1,6 @@
 <?php
 /*
-* ArsenalPay Payment Module v1.0.1 
+* ArsenalPay Payment Module v1.0.2
 * 
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
-*  @copyright  Copyright (c) 2014-2016 ArsenalPay (http://www.arsenalpay.ru)
+*  @copyright  Copyright (c) 2014-2017 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 if(!defined('_PS_VERSION_')) {
@@ -59,11 +59,11 @@ class ArsenalPayValidationModuleFrontController extends ModuleFrontController
 		$currency = $this->context->currency;
 		$total = (float)$cart->getOrderTotal(true, Cart::BOTH);
                 
-                //Validate order. Cart is emptied here. 
-                $this->module->validateOrder($cart->id, Configuration::get('PS_OS_BANKWIRE'), $total, $this->module->displayName, NULL, '', (int)$currency->id, false,$customer->secure_key);
+		//Validate order. Cart is emptied here. 
+		$this->module->validateOrder($cart->id, _PS_OS_PREPARATION_, $total, $this->module->displayName, NULL, '', (int)$currency->id, false,$customer->secure_key);
 		
-                //Prepare data to show in payment form.
-                $config = $this->module->am_config;
+		//Prepare data to show in payment form.
+		$config = $this->module->am_config;
 		$this->context->smarty->assign(array(
 			'nbProducts' => $cart->nbProducts(),
 			'cust_currency' => $cart->id_currency,
