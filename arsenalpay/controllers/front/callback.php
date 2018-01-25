@@ -1,6 +1,6 @@
 <?php
 /*
-* ArsenalPay Payment Module v1.0.2
+* ArsenalPay Payment Module v1.1.1
 * 
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
-*  @copyright  Copyright (c) 2014-2017 ArsenalPay (http://www.arsenalpay.ru)
+*  @copyright  Copyright (c) 2014-2018 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
 if (!defined('_PS_VERSION_')) {
@@ -36,118 +36,266 @@ class ArsenalpayCallbackModuleFrontController extends ModuleFrontController
      */
     public function postProcess()
     {
-        $ars_callback = $_POST;
+        $callback_params = $_POST;
         $config = $this->module->am_config;
+
         $REMOTE_ADDR = $_SERVER["REMOTE_ADDR"];
         $this->str_log = date('Y-m-d H:i:s')." ".$REMOTE_ADDR;
-        $KEY = $config['arsenalpay_key'];
-        $IP_ALLOW = $config['arsenalpay_ip_adress'];
+
+        $IP_ALLOW = $config['arsenalpay_ip_address'];
+
         if (strlen($IP_ALLOW) > 0 && $IP_ALLOW != $REMOTE_ADDR) {
-            $this->exitf('ERR_IP');
-        }
-
-        $keyArray = array
-        (
-            'ID',           /* Идентификатор ТСП/ merchant identifier */
-            'FUNCTION',     /* Тип запроса/ type of request to which the response is received*/
-            'RRN',          /* Идентификатор транзакции/ transaction identifier */
-            'PAYER',        /* Идентификатор плательщика/ payer(customer) identifier */
-            'AMOUNT',       /* Сумма платежа/ payment amount */
-            'ACCOUNT',      /* Номер получателя платежа (номер заказа, номер ЛС) на стороне ТСП/ order number */
-            'STATUS',       /* Статус платежа - check - запрос на проверку номера получателя : payment - запрос на передачу статуса платежа
-            /* Payment status. When 'check' - response for the order number checking, when 'payment' - response for status change.*/
-            'DATETIME',     /* Дата и время в формате ISO-8601 (YYYY-MM-DDThh:mm:ss±hh:mm), УРЛ-кодированное */
-            /* Date and time in ISO-8601 format, urlencoded.*/
-            'SIGN',         /* Подпись запроса/ response sign.
-             //* = md5(md5(ID).md(FUNCTION).md5(RRN).md5(PAYER).md5(AMOUNT).md5(ACCOUNT).md(STATUS).md5(PASSWORD)) */
-        );
-        /**
-         * Checking the absence of each parameter in the post request.
-         * Проверка на присутствие каждого из параметров и их значений в передаваемом запросе.
-         */
-
-        foreach ($keyArray as $key) {
-            if( empty($ars_callback[$key]) || !array_key_exists($key, $ars_callback)) {
-                $this->exitf('ERR_'.$key);
-            }
-            else {
-                $this->str_log .= " $key=$ars_callback[$key]";
-            }
-        }
-
-        //======================================
-        /**
-         * Checking validness of the request sign.
-         */
-        $id_order = Order::getOrderByCartId($ars_callback['ACCOUNT']);
-        $objOrder = new Order($id_order);
-        if (!($this->_checkSign( $ars_callback, $KEY))) {
-            $objOrder->setCurrentState(_PS_OS_ERROR_);
-            $this->exitf('ERR_INVALID_SIGN');
-        }
-        $lessAmount = false;
-        $total = floatval($objOrder->total_paid);
-        if ($ars_callback['MERCH_TYPE'] == 0 && $total == $ars_callback['AMOUNT']) {
-            $lessAmount = false;
-        }
-        elseif ($ars_callback['MERCH_TYPE'] == 1 && $total >= $ars_callback['AMOUNT'] && $total == $ars_callback['AMOUNT_FULL']) {
-            $lessAmount = true;
-        }
-        else {
-            $this->exitf('ERR_AMOUNT');
-        }
-
-        if ($ars_callback['FUNCTION'] == "check" && $ars_callback['STATUS'] == "check") {
-            // Check account
-            /*
-                    Here is account check procedure
-                    Result:
-                    YES - account exists
-                    NO - account not exists
-            */
-            if (Validate::isLoadedObject($objOrder)) {
-                $objOrder->setCurrentState(_PS_OS_PREPARATION_);
-                $this->exitf('YES');
-            }
-            else {
-                $objOrder->setCurrentState(_PS_OS_ERROR_);
-                $this->exitf('NO');
-            }
-        }
-        elseif ($ars_callback['FUNCTION'] == "payment" && $ars_callback['STATUS'] == "payment") {
-            /**
-             * Payment callback
-             * Here is callback payment saving procedure
-             * Result:
-             * OK - success saving
-             * ERR - error saving
-             */
-
-            $dbResult = Db::getInstance()->executeS('SELECT `id_order_state` FROM `'._DB_PREFIX_
-                .'order_state_lang` WHERE `template` = "payment" GROUP BY `template`;');
-            if ($lessAmount) {
-                $logMsg = "Order #{$id_order} - payment with less amount {$ars_callback['AMOUNT']}";
-            }
-            else {
-                $logMsg = "Order #{$id_order} - payment with full amount {$total}";
-            }
-            $this->log($logMsg);
-            $newOrderState = (int)$dbResult[0]['id_order_state'];
-            $objOrder->setCurrentState($newOrderState);
-            $this->exitf('OK');
-        }
-        else {
-            $objOrder->setCurrentState(_PS_OS_ERROR_);
+        	$this->str_log .= " Denied IP";
             $this->exitf('ERR');
         }
+
+        $order_id = Order::getOrderByCartId($callback_params['ACCOUNT']);
+        $order = new Order($order_id);
+
+	    if (!($this->_checkParams($callback_params))) {
+		    $this->exitf('ERR');
+	    }
+
+	    $callback_key = $config['arsenalpay_callback_key'];
+        if (!($this->_checkSign( $callback_params, $callback_key))) {
+        	$this->str_log .= " invalid sign";
+            $this->exitf('ERR');
+        }
+
+        $function = $callback_params['FUNCTION'];
+	    switch ($function) {
+		    case 'check': {
+		    	$this->_callbackCheck($callback_params, $order);
+		    	break;
+		    }
+		    case 'payment': {
+			    $this->_callbackPayment($callback_params, $order);
+			    break;
+		    }
+		    case 'hold': {
+			    $this->_callbackHold($callback_params, $order);
+			    break;
+		    }
+		    case 'cancel': {
+			    $this->_callbackCancel($callback_params, $order);
+			    break;
+		    }
+		    case 'cancelinit': {
+			    $this->_callbackCancel($callback_params, $order);
+			    break;
+		    }
+		    case 'refund': {
+			    $this->_callbackRefund($callback_params, $order);
+			    break;
+		    }
+		    case 'reversal': {
+			    $this->_callbackReverse($callback_params, $order);
+			    break;
+		    }
+		    case 'reverse': {
+			    $this->_callbackReverse($callback_params, $order);
+			    break;
+		    }
+		    default: {
+		    	$this->str_log .= " Function {$function} is not supported";
+			    $order->setCurrentState(_PS_OS_ERROR_);
+		    	$this->exitf("ERR");
+		    }
+	    }
     }
 
-    private function _checkSign( $ars_callback, $pass)
+	private function _callbackCheck($callback_params, $order) {
+		if (!Validate::isLoadedObject($order)) {
+			$order->setCurrentState(_PS_OS_ERROR_);
+			$this->exitf('NO');
+		}
+
+		$rejected_statuses = array(
+			Configuration::get('PS_OS_REFUND'),
+			Configuration::get('PS_OS_CANCELED'),
+		);
+		if (in_array($order->getCurrentState(), $rejected_statuses)) {
+			$this->str_log .= " Order has rejected status: " . $order->getCurrentState();
+			$this->exitf('ERR');
+		}
+
+		$total             = number_format(floatval($order->total_paid), 2, '.', '');
+		$is_correct_amount = ($callback_params['MERCH_TYPE'] == 0 && $total == $callback_params['AMOUNT']) ||
+		                     ($callback_params['MERCH_TYPE'] == 1 && $total >= $callback_params['AMOUNT'] && $total == $callback_params['AMOUNT_FULL']);
+		if (!$is_correct_amount) {
+			$this->str_log .= " Wrong amount";
+			$this->exitf('ERR');
+		}
+
+		$order->setCurrentState(Configuration::get('ARSENALPAY_OS_CHECK'));
+		$this->exitf('YES');
+
+	}
+
+	private function _callbackPayment($callback_params, $order) {
+		$rejected_statuses = array(
+			Configuration::get('PS_OS_REFUND'),
+			Configuration::get('PS_OS_CANCELED'),
+		);
+		if (in_array($order->getCurrentState(), $rejected_statuses)) {
+			$this->str_log .= " Order has rejected status: " . $order->getCurrentState();
+			$this->exitf('ERR');
+		}
+
+		$total = number_format(floatval($order->total_paid), 2, '.', '');
+		if ($callback_params['MERCH_TYPE'] == 0 && $total == $callback_params['AMOUNT']) {
+			$this->str_log .= " Order #{$order->id} - payment with full amount {$total}";
+		}
+		elseif ($callback_params['MERCH_TYPE'] == 1 && $total >= $callback_params['AMOUNT'] && $total == $callback_params['AMOUNT_FULL']) {
+			$this->str_log .= " Order #{$order->id} - payment with less amount {$callback_params['AMOUNT']}";
+		}
+		else {
+			$this->str_log .= " Wrong amount";
+			$this->exitf('ERR');
+		}
+
+		$order->setCurrentState(Configuration::get('PS_OS_PAYMENT'));
+		$this->exitf('OK');
+	}
+
+	private function _callbackHold($callback_params, $order) {
+		$rejected_statuses = array(
+			Configuration::get('PS_OS_PAYMENT'),
+			Configuration::get('PS_OS_REFUND'),
+			Configuration::get('PS_OS_CANCELED'),
+		);
+		if (in_array($order->getCurrentState(), $rejected_statuses)) {
+			$this->str_log .= " Order has rejected status: " . $order->getCurrentState();
+			$this->exitf('ERR');
+		}
+		$total = number_format(floatval($order->total_paid), 2, '.', '');
+		if ($callback_params['MERCH_TYPE'] == 0 && $total == $callback_params['AMOUNT']) {
+			$this->str_log .= " Order #{$order->id} - hold with full amount {$total}";
+		}
+		elseif ($callback_params['MERCH_TYPE'] == 1 && $total >= $callback_params['AMOUNT'] && $total == $callback_params['AMOUNT_FULL']) {
+			$this->str_log .= " Order #{$order->id} - hold with less amount {$callback_params['AMOUNT']}";
+		}
+		else {
+			$this->str_log .= " Wrong amount";
+			$this->exitf('ERR');
+		}
+
+		$order->setCurrentState(Configuration::get('ARSENALPAY_OS_HOLD'));
+		$this->exitf('OK');
+	}
+
+	private function _callbackCancel($callback_params, $order) {
+		$rejected_statuses = array(
+			Configuration::get('PS_OS_REFUND'),
+			Configuration::get('PS_OS_CANCELED'),
+			Configuration::get('PS_OS_PAYMENT'),
+		);
+		if (in_array($order->getCurrentState(), $rejected_statuses)) {
+			$this->str_log .= " Order has rejected status: " . $order->getCurrentState();
+			$this->exitf('ERR');
+		}
+
+		$order->setCurrentState(Configuration::get('PS_OS_CANCELED'));
+		$this->exitf('OK');
+	}
+
+	private function _callbackRefund($callback_params, $order) {
+		$rejected_statuses = array(
+			Configuration::get('ARSENALPAY_OS_CHECK'),
+			Configuration::get('PS_OS_CANCELED'),
+		);
+		if (in_array($order->getCurrentState(), $rejected_statuses)) {
+			$this->str_log .= " Order has rejected status: " . $order->getCurrentState();
+			$this->exitf('ERR');
+		}
+
+		$total             = number_format(floatval($order->total_paid), 2, '.', '');
+		$is_correct_amount = ($callback_params['MERCH_TYPE'] == 0 && $total >= $callback_params['AMOUNT']) ||
+		                     ($callback_params['MERCH_TYPE'] == 1 && $total >= $callback_params['AMOUNT'] && $total >= $callback_params['AMOUNT_FULL']);
+
+		if (!$is_correct_amount) {
+			$this->str_log .= " Wrong amount";
+			$this->exitf('ERR');
+		}
+
+		$order->setCurrentState(Configuration::get('PS_OS_REFUND'));
+		$this->str_log .= " Partition refund: {$callback_params['AMOUNT']}";
+		$this->exitf('OK');
+	}
+
+	private function _callbackReverse($callback_params, $order) {
+		$rejected_statuses = array(
+			Configuration::get('ARSENALPAY_OS_CHECK'),
+			Configuration::get('PS_OS_REFUND'),
+			Configuration::get('PS_OS_CANCELED'),
+		);
+		if (in_array($order->getCurrentState(), $rejected_statuses)) {
+			$this->str_log .= " Order has rejected status: " . $order->getCurrentState();
+			$this->exitf('ERR');
+		}
+
+		$total             = number_format(floatval($order->total_paid), 2, '.', '');
+		$is_correct_amount = ($callback_params['MERCH_TYPE'] == 0 && $total == $callback_params['AMOUNT']) ||
+		                     ($callback_params['MERCH_TYPE'] == 1 && $total >= $callback_params['AMOUNT'] && $total == $callback_params['AMOUNT_FULL']);
+
+		if (!$is_correct_amount) {
+			$this->str_log .= " Wrong amount";
+			$this->exitf('ERR');
+		}
+
+		$order->setCurrentState(Configuration::get('PS_OS_REFUND'));
+		$this->str_log .= " Full refund: {$callback_params['AMOUNT']}";
+		$this->exitf('OK');
+	}
+
+	private function _checkParams($callback_params) {
+		$keyArray = array
+		(
+			'ID',           /* Идентификатор ТСП/ merchant identifier */
+			'FUNCTION',     /* Тип запроса/ type of request to which the response is received*/
+			'RRN',          /* Идентификатор транзакции/ transaction identifier */
+			'PAYER',        /* Идентификатор плательщика/ payer(customer) identifier */
+			'AMOUNT',       /* Сумма платежа/ payment amount */
+			'ACCOUNT',      /* Номер получателя платежа (номер заказа, номер ЛС) на стороне ТСП/ order number */
+			'STATUS',       /* Статус платежа - check - запрос на проверку номера получателя : payment - запрос на передачу статуса платежа
+            /* Payment status. When 'check' - response for the order number checking, when 'payment' - response for status change.*/
+			'DATETIME',     /* Дата и время в формате ISO-8601 (YYYY-MM-DDThh:mm:ss±hh:mm), УРЛ-кодированное */
+			/* Date and time in ISO-8601 format, urlencoded.*/
+			'SIGN',         /* Подпись запроса/ response sign.
+             //* = md5(md5(ID).md(FUNCTION).md5(RRN).md5(PAYER).md5(AMOUNT).md5(ACCOUNT).md(STATUS).md5(PASSWORD)) */
+		);
+		/**
+		 * Checking the absence of each parameter in the post request.
+		 * Проверка на присутствие каждого из параметров и их значений в передаваемом запросе.
+		 */
+
+		foreach ($keyArray as $key) {
+			if (empty($callback_params[$key]) || !array_key_exists($key, $callback_params)) {
+				$this->str_log .= " ERROR Param {$key} is empty!";
+
+				return false;
+			}
+			else {
+				$this->str_log .= " $key=$callback_params[$key]";
+			}
+		}
+
+		if ($callback_params['FUNCTION'] != $callback_params['STATUS']) {
+			$this->str_log .= " FUNCTION != STATUS";
+
+			return false;
+		}
+
+		return true;
+
+	}
+
+    private function _checkSign( $callback_params, $callback_key)
     {
-        $validSign = ( $ars_callback['SIGN'] === md5(md5($ars_callback['ID']).
-                md5($ars_callback['FUNCTION']).md5($ars_callback['RRN']).
-                md5($ars_callback['PAYER']).md5($ars_callback['AMOUNT']).md5($ars_callback['ACCOUNT']).
-                md5($ars_callback['STATUS']).md5($pass) ) )? true : false;
+        $validSign = ( $callback_params['SIGN'] === md5(md5($callback_params['ID']).
+                md5($callback_params['FUNCTION']).md5($callback_params['RRN']).
+                md5($callback_params['PAYER']).md5($callback_params['AMOUNT']).md5($callback_params['ACCOUNT']).
+                md5($callback_params['STATUS']).md5($callback_key) ) )? true : false;
         return $validSign;
     }
 

@@ -1,5 +1,5 @@
 {*
-* ArsenalPay Payment Module v1.0.2
+* ArsenalPay Payment Module v1.1.1
 * 
 * NOTICE OF LICENSE
 *
@@ -18,7 +18,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
-*  @copyright  Copyright (c) 2014-2017 ArsenalPay (http://www.arsenalpay.ru)
+*  @copyright  Copyright (c) 2014-2018 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *}
 
@@ -33,6 +33,18 @@
 	<p class="warning">{l s='Your shopping cart is empty.' mod='arsenalpay'}</p>
 {else}
 
-<iframe {$frame_params} src="{$frame_url}?src={$srcc}&t={$ap_token}&n={$order_id}&a={$total}&s={$other_code}&frame={$frame_mode}&css={$css}"></iframe>	
+	<div id='arsenalpay-widget'></div>
+	<script src='https://arsenalpay.ru/widget/script.js'></script>
+	<script>
+        var widget = new ArsenalpayWidget();
+        widget.element = 'arsenalpay-widget';
+        widget.widget = {$widget};
+        widget.destination = '{$destination}';
+        widget.amount = '{$total}';
+        widget.userId = '{$user_id}';
+        widget.nonce = '{$nonce}';
+        widget.widgetSign = '{$widget_sign}';
+        widget.render();
+	</script>
 
 {/if}

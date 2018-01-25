@@ -1,7 +1,7 @@
 <?php
 /*
 * ArsenalPay Payment Module v1.1.1
-* 
+*
 * NOTICE OF LICENSE
 *
 * This source file is subject to the Academic Free License (AFL 3.0)
@@ -22,28 +22,37 @@
 *  @copyright  Copyright (c) 2014-2018 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 */
+
 if (!defined('_PS_VERSION_')) {
 	exit;
 }
-class ArsenalpayPaymentModuleFrontController extends ModuleFrontController
-{
-	public $ssl = true;
-	public $display_column_left = false;
 
-	/**
-	 * @see FrontController::initContent()
-	 */
-	public function initContent()
-	{
-		$this->display_column_left = false;
-		parent::initContent();
-		$currency = $this->context->currency;
-		$order_total = $this->context->cart->getOrderTotal(true);
-		$format_total = number_format($order_total, 2, '.', '');
-		$this->context->smarty->assign(array(
-			'total' => Tools::displayPrice($format_total, $currency),
-		));
-		
-		$this->setTemplate('order_summary.tpl');
-	}
+/**
+ * @param $module ArsenalPay
+ *
+ * @return bool
+ */
+function upgrade_module_1_1_1($module) {
+	// delete old configs
+	Configuration::deleteByName('arsenalpay_token');
+	Configuration::deleteByName('arsenalpay_key');
+	Configuration::deleteByName('arsenalpay_css');
+	Configuration::deleteByName('arsenalpay_ip_adress');
+	Configuration::deleteByName('arsenalpay_check_url');
+	Configuration::deleteByName('arsenalpay_srcc');
+	Configuration::deleteByName('arsenalpay_frame_url');
+	Configuration::deleteByName('arsenalpay_frame_params');
+
+	// clear cache
+	Tools::clearSmartyCache();
+	Tools::clearXMLCache();
+	Media::clearCache();
+	Tools::generateIndex();
+
+	// install HOLD and CHECK arsenalpay statuses
+	$module->installOrderState();
+
+	// hook view of payments list
+	$module->registerHook('displayPaymentEU');
+	return true;
 }

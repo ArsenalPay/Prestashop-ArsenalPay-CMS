@@ -4,7 +4,7 @@
 [Arsenal Pay processing center](https://arsenalpay.ru/)
 
 ## Version
-1.0.2
+1.1.1
 
 *Has been tested on PrestaShop 1.6*
 
@@ -17,27 +17,24 @@ Basic feature list:
  
 ## How to install 
 1. Download the ArsenalPay payment module from `https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS` 
-2. Upload the **arsenalpay** directory from the archive to your PrestaShop **modules** directory
-3. Login to the PrestaShop admin section 
-4. Go to **Modules** under **Modules** on the left side menu
-5. Find **ArsenalPay** in the list of extensions 
-6. Click **Install**
-7. New payment method will appear while doing an order
+2. Unzip the downloaded zip-file
+3. Zip the folder **arsenalpay** (folder should be in zip-file root)
+4. Login to the PrestaShop admin section 
+5. Go to **Modules** under **Modules** on the left side menu
+6. Click **Module Install** on upper right
+7. Choose zip-file in block **Module Install** and click **Upload**   
+8. Find **ArsenalPay** in the list of extensions 
+9. Click **Install**
+10. New payment method will appear while doing an order
 
 ## Settings
 1. In admin section of PrestaShop choose **Modules** under **Modules** on the left side menu
 2. Find **ArsenalPay** in the list of extensions
 3. Click on **Configuration** 
 4. Make there proper settings:
- - Fill out **Unique token**, **Sign key** fields with your received token and key.
- - Check **Frame URL** to be as `https://arsenalpay.ru/payframe/pay.php`
- - Set payment type in **src parameter** as `card` to activate payments with bank cards or `mk` to activate payments from mobile phone accounts.
- - **css parameter**. You can specify CSS file to apply it to the view of payment frame by inserting its url.
+ - Fill out **Callback Key**, **Widget ID**, **Widget Key** fields with your received from Arsenalpay.
  - You can specify ip address only from which it will be allowed to receive callback requests about payments onto your site in **Allowed IP address** field.
  - Your online shop will be receiving callback requests about processed payments for automatically order status change. The callbacks will being received onto the address assigned in the field **Callback URL** of the payment module settings. Callback is set to address: `http(s)://yourSiteAddress/index.php?fc=module&module=arsenalpay&controller=callback`
- - If it is needed to check a payer order number before payment processing you should fill out the field of **Check URL** in the module settings with url-address to which ArsenalPay will be sending requests with check parameters. By default the address is the same with **Callback URL**. 
- - Set **Frame mode** as `1` to display payment frame inside your site, otherwise a payer will be redirected directly to the payment frame url.
- - You can adjust **width**, **height**, **frameborder** and **scrolling** of ArsenalPay payment frame by setting iframe parameters. For instance, you can insert string in format: `width='100%' height'500' frameborder='0' scrolling='no'`. Go to html standard reference for more detailes about iframe parameters.
 5. Finally, save your settings by clicking on **Update Settings**
 
 ## How to uninstall
@@ -64,29 +61,25 @@ After successful install and proper settings new choice of payment method with A
 
 ### УСТАНОВКА
 1. Загрузите архив из репозитория https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS/
-2. Скопируйте содержимое архива модуля в каталог **modules** Вашего сайта;
-3. Зайдите в администрирование PrestaShop;
+2. Разархивируйте архив
+3. Заархивируйте папку **arsenalpay**, так чтобы эта папка лежала в корне архива.
 4. Выберите закладку **Модули** в левом меню;
-5. Найдите в списке модуль **ArsenalPay**;
-6. Нажмите **Установить**;
-7. После установки платежная система сразу появится в списке при оформлении заказа.
+5. Нажмите кнопку **Добавить модуль** в правом верхнем углу
+6. В появившемся блоке **Установить модуль** выберите архив, полученный на **3** шаге и нажмите **Загрузить этот модуль**"
+7. Найдите в списке модуль **ArsenalPay**;
+8. Нажмите **Установить**;
+9. После установки платежная система сразу появится в списке при оформлении заказа.
 
 ### НАСТРОЙКА
 1. Зайдите в администрирование Prestashop;
 2. Выберите закладку **Модули** в левом меню;
 3. Найдите в списке модуль Arsenalpay;
-5. Нажмите на кнопку **Настроить**;
-6. Заполните необходимые настройки:
-  - Заполните поля **Уникальный токен** и **Ключ (key)**, присвоенными Вам токеном и ключом для подписи.
- - Проверьте, **URL-адрес фрейма** должен быть установлен как `https://arsenalpay.ru/payframe/pay.php`
- - Установите тип оплаты в поле **Параметр src** как `card` для активации платежей с пластиковых карт или  как `mk` — платежей с аккаунтов мобильных телефонов.
- - Вы можете задать **Параметр css** для применения к отображению платежного фрейма, указав url css-файла.
+4. Нажмите на кнопку **Настроить**;
+5. Заполните необходимые настройки:
+ - Заполните поля **Callback Key**, **Widget ID** и **Widget Key**, присвоенными Вам Arsenalpay.
  - Вы можете задать ip-адрес, только с которого будут разрешены обратные запросы о совершаемых платежах, в поле **Разрешенный IP-адрес**.
  - Ваш интернет-магазин будет получать уведомления о совершенных платежах: на адрес, указанный в поле **URL для обратного запроса**, от ArsenalPay будет поступать запрос с результатом платежа для фиксирования статусов заказа в системе предприятия. Обратный запрос настроен на адрес: `http(s)://адресВашегоСайта/index.php?fc=module&module=arsenalpay&controller=callback`
- - При необходимости осуществления проверки номера заказа перед проведением платежа, Вы должны заполнить поле **URL для проверки**, на который от ArsenalPay будет поступать запрос на проверку. По умолчанию значение совпадает с **URL для обратного запроса**.
- - Вы можете устанавливать **Режим отображения фрейма**. Значение `1` соответствует отображению фрейма внутри Вашего сайта , иначе пользователь будет перенаправляться напрямую на адрес платежного фрейма.
- - Вы можете подгонять ширину, высоту, границу и прокрутку платежного фрейма, задавая соответствующие значения параметров iframe в формате ` width='100%' height'500' frameborder='0' scrolling='no'`. За более пдоробной информацией о параметрах iframe обращайтесь к стандарту html.
-7. Нажмите **Обновить настройки**.
+6. Нажмите **Обновить настройки**.
 
 ### УДАЛЕНИЕ
 1. Зайдите в администрирование PrestaShop;

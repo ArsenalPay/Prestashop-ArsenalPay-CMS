@@ -1,5 +1,5 @@
 {*
-* ArsenalPay Payment Module v1.0.0 
+* ArsenalPay Payment Module v1.1.1
 * 
 * NOTICE OF LICENSE
 *
@@ -18,11 +18,11 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author     ArsenalPay Dev. <pay@arsenalpay.ru>
-*  @copyright  Copyright (c) 2014 ArsenalPay (http://www.arsenalpay.ru)
+*  @copyright  Copyright (c) 2018 ArsenalPay (http://www.arsenalpay.ru)
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *}
 <div class="row">
-    <div class="col-xs-12 col-md-6">
+    <div class="col-xs-12">
         <p class="payment_module">
             <a href="{$link->getModuleLink('arsenalpay', 'payment')|escape:'html':'UTF-8'}" style="padding-left:17px;" title="{l s='Pay with ArsenalPay' mod='arsenalpay'}">
                 <img src="{$this_path_am}arsenalpay.png" alt="{l s='Pay with ArsenalPay' mod='arsenalpay'}"/>
