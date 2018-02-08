@@ -16,16 +16,14 @@ Basic feature list:
  * Supports two languages (Russian, English).
  
 ## How to install 
-1. Download the ArsenalPay payment module from `https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS` 
-2. Unzip the downloaded zip-file
-3. Zip the folder **arsenalpay** (folder should be in zip-file root)
-4. Login to the PrestaShop admin section 
-5. Go to **Modules** under **Modules** on the left side menu
-6. Click **Module Install** on upper right
-7. Choose zip-file in block **Module Install** and click **Upload**   
-8. Find **ArsenalPay** in the list of extensions 
-9. Click **Install**
-10. New payment method will appear while doing an order
+1. Download the ArsenalPay last version of payment module from `https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS/releases` 
+2. Login to the PrestaShop admin section 
+3. Go to **Modules** under **Modules** on the left side menu
+4. Click **Module Install** on upper right
+5. Choose zip-file in block **Module Install** and click **Upload**   
+6. Find **ArsenalPay** in the list of extensions 
+7. Click **Install**
+8. New payment method will appear while doing an order
 
 ## Settings
 1. In admin section of PrestaShop choose **Modules** under **Modules** on the left side menu
@@ -60,15 +58,13 @@ After successful install and proper settings new choice of payment method with A
 * Модуль поддерживает русский и английский языки.
 
 ### УСТАНОВКА
-1. Загрузите архив из репозитория https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS/
-2. Разархивируйте архив
-3. Заархивируйте папку **arsenalpay**, так чтобы эта папка лежала в корне архива.
-4. Выберите закладку **Модули** в левом меню;
-5. Нажмите кнопку **Добавить модуль** в правом верхнем углу
-6. В появившемся блоке **Установить модуль** выберите архив, полученный на **3** шаге и нажмите **Загрузить этот модуль**"
-7. Найдите в списке модуль **ArsenalPay**;
-8. Нажмите **Установить**;
-9. После установки платежная система сразу появится в списке при оформлении заказа.
+1. Скачайте последний релиз платежного модуля ArsenalPay по [ссылке](https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS/releases) (ВАЖНО! Архив должен сам содержать структуру проекта, начинающуюся с `arsnalpay`, без дополнительной папки на верхнем уровне этой структуры.)
+2. Выберите закладку **Модули** в левом меню;
+3. Нажмите кнопку **Добавить модуль** в правом верхнем углу
+4. В появившемся блоке **Установить модуль** выберите архив, полученный на **1** шаге и нажмите **Загрузить этот модуль**"
+5. Найдите в списке модуль **ArsenalPay**;
+6. Нажмите **Установить**;
+7. После установки платежная система сразу появится в списке при оформлении заказа.
 
 ### НАСТРОЙКА
 1. Зайдите в администрирование Prestashop;
