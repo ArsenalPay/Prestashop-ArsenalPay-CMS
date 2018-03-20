@@ -30,7 +30,7 @@ Basic feature list:
 2. Find **ArsenalPay** in the list of extensions
 3. Click on **Configuration** 
 4. Make there proper settings:
- - Fill out **Callback Key**, **Widget ID**, **Widget Key** fields with your received from Arsenalpay.
+ - Fill out **callbackKey**, **widget**, **widgetKey** fields with your received from Arsenalpay.
  - You can specify ip address only from which it will be allowed to receive callback requests about payments onto your site in **Allowed IP address** field.
  - Your online shop will be receiving callback requests about processed payments for automatically order status change. The callbacks will being received onto the address assigned in the field **Callback URL** of the payment module settings. Callback is set to address: `http(s)://yourSiteAddress/index.php?fc=module&module=arsenalpay&controller=callback`
 5. Finally, save your settings by clicking on **Update Settings**
@@ -72,7 +72,7 @@ After successful install and proper settings new choice of payment method with A
 3. Найдите в списке модуль Arsenalpay;
 4. Нажмите на кнопку **Настроить**;
 5. Заполните необходимые настройки:
- - Заполните поля **Callback Key**, **Widget ID** и **Widget Key**, присвоенными Вам Arsenalpay.
+ - Заполните поля **callbackKey**, **widget** и **widgetKey**, присвоенными Вам Arsenalpay.
  - Вы можете задать ip-адрес, только с которого будут разрешены обратные запросы о совершаемых платежах, в поле **Разрешенный IP-адрес**.
  - Ваш интернет-магазин будет получать уведомления о совершенных платежах: на адрес, указанный в поле **URL для обратного запроса**, от ArsenalPay будет поступать запрос с результатом платежа для фиксирования статусов заказа в системе предприятия. Обратный запрос настроен на адрес: `http(s)://адресВашегоСайта/index.php?fc=module&module=arsenalpay&controller=callback`
 6. Нажмите **Обновить настройки**.
@@ -120,7 +120,7 @@ ArsenalPay – увеличить прибыль просто!
 
 ### Как подключиться: 
 1. Вы скачали модуль и установили его у себя на сайте;
-2. Отправьте нам письмом ссылку на Ваш сайт на pay@arsenalpay.ru либо оставьте заявку на [сайте](https://arsenalpay.ru/#register) через кнопку "Подключиться";
+2. Отправьте нам письмом ссылку на Ваш сайт на pay@arsenalpay.ru либо оставьте заявку на [сайте](https://arsenalpay.ru/#registerModal) через кнопку "Подключиться";
 3. Мы Вам вышлем коммерческие условия и технические настройки;
 4. После Вашего согласия мы отправим Вам проект договора на рассмотрение.
 5. Подписываем договор и приступаем к работе.

@@ -210,7 +210,7 @@ class ArsenalPay extends PaymentModule {
                 <table border="0" width="500" cellpadding="0" cellspacing="0" id="form">
                     <tr>
 						<td valign="top" width="50%">
-							<label for="arsenalpay_widget_id">' . $this->l('Widget ID') . '</label>
+							<label for="arsenalpay_widget_id">' . $this->l('widget') . '</label>
 							<span style="color:red"> *</span>
 						</td>
 						<td>
@@ -219,7 +219,7 @@ class ArsenalPay extends PaymentModule {
 					</tr>
 					<tr>
 						<td valign="top" width="50%">
-							<label for="arsenalpay_widget_key">' . $this->l('Widget Key') . '</label>
+							<label for="arsenalpay_widget_key">' . $this->l('widgetKey') . '</label>
 							<span style="color:red"> *</span>
 						</td>
 						<td>
@@ -228,7 +228,7 @@ class ArsenalPay extends PaymentModule {
 					</tr>
 					<tr>
 						<td valign="top" width="50%">
-							<label for="arsenalpay_callback_key">' . $this->l('Callback Key') . '</label>
+							<label for="arsenalpay_callback_key">' . $this->l('callbackKey') . '</label>
 							<span style="color:red"> *</span>
 						</td>
 						<td>

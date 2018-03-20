@@ -12,9 +12,9 @@ $_MODULE['<{arsenalpay}prestashop>arsenalpay_e0aa021e21dddbd6d8cecec71e9cf564'] 
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_b91ea31b61e4312bf777c58b386d0d2c'] = 'Настройки сохранены';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_ca23f8587b6c0c9778266512e7175f67'] = 'Этот модуль позволяет принимать платежи с ArsenalPay.';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_254f642527b45bc260048e30704edb39'] = 'Конфигурация';
-$_MODULE['<{arsenalpay}prestashop>arsenalpay_d64a01d57316c2467f36269d3b3d7f87'] = 'Widget ID';
-$_MODULE['<{arsenalpay}prestashop>arsenalpay_f6877407122056368c82939281ed0ce2'] = 'Widget Key';
-$_MODULE['<{arsenalpay}prestashop>arsenalpay_84fa2ee6e64d38f4959f67a4c2095177'] = 'Callback Keyq';
+$_MODULE['<{arsenalpay}prestashop>arsenalpay_9d2b1ad5bbc16c44d49116dc213c53f2'] = 'widget';
+$_MODULE['<{arsenalpay}prestashop>arsenalpay_c208ebb08c4a2062dd8607ec72e8cc2d'] = 'widgetKey';
+$_MODULE['<{arsenalpay}prestashop>arsenalpay_da26a75f3fbfe781af398b6a7c786b67'] = 'callbackKey';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_1d41f0e22727f9dc75d8f3b6af560353'] = 'Разрешенный IP-адрес';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_3f1de5906e826b0f9aeb05c30ec6178a'] = 'Только с которого будут разрешены обратные запросы о подтверждении платежей от ArsenalPay.';
 $_MODULE['<{arsenalpay}prestashop>arsenalpay_971aa940ab12731eefcaf9864ea239c4'] = 'URL для обратного запроса';

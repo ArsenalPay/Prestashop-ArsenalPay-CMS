@@ -17,7 +17,7 @@
                 <table border="0" width="500" cellpadding="0" cellspacing="0" id="form">
 					<tr>
 						<td valign="top" width="50%">
-							<label for="arsenalpay_widget_id">Widget ID</label>
+							<label for="arsenalpay_widget_id">widget</label>
 							<span style="color:red"> *</span>
 						</td>
 						<td>
@@ -26,7 +26,7 @@
 					</tr>
 					<tr>
 						<td valign="top" width="50%">
-							<label for="arsenalpay_widget_key">Widget Key</label>
+							<label for="arsenalpay_widget_key">widgetKey</label>
 							<span style="color:red"> *</span>
 						</td>
 						<td>
@@ -35,7 +35,7 @@
 					</tr>
 					<tr>
 						<td valign="top" width="50%">
-							<label for="arsenalpay_callback_key">Callback Key</label>
+							<label for="arsenalpay_callback_key">callbackKey</label>
 							<span style="color:red"> *</span>
 						</td>
 						<td>
