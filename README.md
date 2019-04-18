@@ -1,63 +1,69 @@
-# ArsenalPay for PrestaShop CMS
+# ArsenalPay: приём платежей без покупки онлайн-кассы
 
-*Arsenal Media LLC*  
-[Arsenal Pay processing center](https://arsenalpay.ru/)
+## Version 1.1.1
 
-## Version
-1.1.1
+*Тестировалось на PrestaShop v.1.6*
 
-*Has been tested on PrestaShop 1.6*
-
-Basic feature list:
-
- * Allows seamlessly integrate unified payment frame into your site.
- * New payment method ArsenalPay will appear to pay for your products and services.
- * Allows to pay using mobile commerce and bank aquiring. More methods are about to become available. Please check for updates.
- * Supports two languages (Russian, English).
+## Описание
+ - ArsenalPay – удобный и надежный платежный сервис для бизнеса любого размера.
+ - Самые низкие тарифы.
+ - Не нужно покупать или арендовать онлайн кассу, мы создали [готовое решение](https://arsenalpay.ru/cashbox.html) для отправки фискальных чеков.
+ - Платежный виджет настраивается под цвета вашего сайта
+ - Деньги перечисляются на ваш расчетный счет ежедневно за минусом комиссии. Без каких-либо лимитов, минимальных сумм или звёздочек в договоре
  
-## How to install 
-1. Download the ArsenalPay last version of payment module from `https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS/releases` 
-2. Login to the PrestaShop admin section 
-3. Go to **Modules** under **Modules** on the left side menu
-4. Click **Module Install** on upper right
-5. Choose zip-file in block **Module Install** and click **Upload**   
-6. Find **ArsenalPay** in the list of extensions 
-7. Click **Install**
-8. New payment method will appear while doing an order
+![картинка](https://arsenalpay.ru/images/1-ArsenalPay-priem-platezhej-na-sajte-besplatnaya-onlajn-kassa.png "Прием платежей на сайте")
 
-## Settings
-1. In admin section of PrestaShop choose **Modules** under **Modules** on the left side menu
-2. Find **ArsenalPay** in the list of extensions
-3. Click on **Configuration** 
-4. Make there proper settings:
- - Fill out **callbackKey**, **widget**, **widgetKey** fields with your received from Arsenalpay.
- - You can specify ip address only from which it will be allowed to receive callback requests about payments onto your site in **Allowed IP address** field.
- - Your online shop will be receiving callback requests about processed payments for automatically order status change. The callbacks will being received onto the address assigned in the field **Callback URL** of the payment module settings. Callback is set to address: `http(s)://yourSiteAddress/index.php?fc=module&module=arsenalpay&controller=callback`
-5. Finally, save your settings by clicking on **Update Settings**
+## Тарифы
+2,6% за успешный платеж. Снижаем комиссию при обороте свыше 1 млн. Подключение и интеграция бесплатно.
 
-## How to uninstall
-1. In admin section of PrestaShop choose **Modules** under **Modules** on the left side menu
-2. Find "Arsenalpay" in the list of extensions
-3. Open dropdown list by clicking on the arrow near **Configuration** button
-4. Find **Delete** in this list and click on it.
+Используя ArsenalPay, Вы сможете принимать онлайн платежи при помощи:
+ - банковских карт Visa, MasterCard, Maestro и Мир, выпущенных в любом банке мира
+ - баланса мобильного телефона операторов МТС, Мегафон, Билайн и Теле2
+ - различных электронных кошельков
 
-## Usage
-After successful install and proper settings new choice of payment method with ArsenalPay will appear on your site. To make payment for an order a payer will need to:
+Платежные инструменты ArsenalPay прошли самую высокую международную сертификацию – в соответствии со максимальным стандартом безопасности данных индустрии платёжных карт PCI DSS.
 
-1. Choose goods from the shop catalog.
-2. Go into the order page.
-3. Choose the ArsenalPay payment method.
-4. Check the order detailes and confirm the order.
-5. After filling out the information depending on the payment type he will receive SMS about payment confirmation or will be redirected to the page with the result of his payment.
+## Онлайн касса не нужна
+Вам не нужно покупать или арендовать свою онлайн кассу – мы создали готовое решение для отправки фискальных чеков: ваш клиент оплачивает покупку в интернет магазине через платежную систему ArsenalPay. Чек отправляется на email вашего клиента, а информация о платеже через ОФД поступает в налоговую.
+![картинка](https://arsenalpay.ru/images/2-ArsenalPay-onlajn-kassa-besplatno.png "Онлайн касса бесплатно")
 
-------------------
-### О МОДУЛЕ
-* Модуль платежной системы ArsenalPay под Prestashop позволяет легко встроить платежную страницу на Ваш сайт.
-* После установки модуля у Вас появится новый вариант оплаты товаров и услуг через платежную систему ArsenalPay.
-* Платежная система ArsenalPay позволяет совершать оплату с различных источников списания средств: мобильных номеров (МТС/Мегафон/Билайн/TELE2), пластиковых карт (VISA/MasterCard/Maestro). Перечень доступных источников средств постоянно пополняется. Следите за обновлениями.
-* Модуль поддерживает русский и английский языки.
+Все платежи проходят через онлайн кассу ArsenalPay. Мы выступаем как агент и отправляем чеки от имени нашего сервиса. В чеке указывается ИНН вашего ИП или юридического лица, а также все необходимые данные, в соответствии с законом 54-ФЗ.
 
-### УСТАНОВКА
+Вам не придется тратить более 40 тысяч рублей в год на покупку или аренду кассы и фискального накопителя. Все затраты и задачи по ведению онлайн касс и отправке фискальных чеков лежат на ArsenalPay и включены в комиссию за эквайринг.
+
+## Личный кабинет
+Один из основных инструментов контроля приема платежей в интернет: статистика и история платежей, фильтрация и удобный поиск, настройки, частичные и полные возвраты, подтверждение двухэтапных (зарезервированных) платежей, выставление счетов, экспорт реестров и многое другое.
+![картинка](https://arsenalpay.ru/images/3-ArsenalPay-fiskalnye-cheki-v-lichnom-kabinete.png "Удобный личный кабинет")
+
+Чтобы вам было удобнее, мы в личный кабинет добавили онлайн чеки по каждой транзакции, будь то успешный платеж или отмена покупки. Теперь при оплате фискальный чек отправляется на email вашего клиента, а информация о платеже поступает в налоговую. Все чеки сохраняются в вашем личном кабинете, вы всегда сможете найти, посмотреть или распечатать любой чек.
+
+Теперь вам не только не нужно покупать или арендовать свою онлайн кассу, но и можно пользоваться только одним личным кабинетом для контроля за платежами и онлайн чеками.
+![картинка](https://arsenalpay.ru/images/4-ArsenalPay-fiskalnye-cheki-v-vashem-mobilnom.png "Все чеки у вас в мобильном")
+
+## Быстрый старт
+Тем кто не хочет заниматься настройкой сайта и хочет максимально оперативно включить прием платежей, мы предоставляем сервис Быстрый старт.
+
+Вы получаете полностью готовое решение для приема платежей, не нужно тратить время на интеграцию и подготовку сайта в соответствие с требованиями международных платежных систем. Полученную личную ссылку размещаете на любой странице вашего сайта и начинаете прием платежей в течение 3 дней.
+
+Нужен только ИНН вашей компании. Онлайн касса бесплатно. Покупать или арендовать кассу не нужно.
+![картинка](https://arsenalpay.ru/images/5-ArsenalPay-bystryj-start-platezhej-na-sajte-onlajn-kassa-besplatno.png "Быстрый старт")
+
+## Основные этапы подключения
+1. Установите приложение в ваш интернет магазин.
+2. [Зарегистрируйтесь](https://arsenalpay.ru/dashboard/register?step=1) у нас в сервисе
+3. Вам будет предоставлен личный кабинет, где сразу же получите все необходимые параметры для настройки приложения:
+- идентификатор виджета (widgetId)
+- секретный ключ виджета (widgetKey)
+- секретный ключ для callback-уведомлений (callbackKey)
+4. Сообщите нам URL для callback-уведомлений из настроек вашего приложения, чтобы после успешного платежа в вашем магазине обновлялся статус заказа.
+5. Подписываем договор и приступаем к работе.
+
+![картинка](https://arsenalpay.ru/images/6-ArsenalPay-vidzhet-oplaty-v-firmennyx-cvetax-vashego-sajta.png "Виджет оплаты в ваших фирменных цветах")
+
+Подробную инструкцию по установке, настройке и использованию модуля вы можете [скачать тут](https://arsenalpay.ru/instructions/PrestaShop_%D0%A1%D0%9C%D0%A1_instruction.pdf).
+
+
+## УСТАНОВКА
 1. Скачайте последний релиз платежного модуля ArsenalPay по [ссылке](https://github.com/ArsenalPay/Prestashop-ArsenalPay-CMS/releases) (ВАЖНО! Архив должен сам содержать структуру проекта, начинающуюся с `arsnalpay`, без дополнительной папки на верхнем уровне этой структуры.)
 2. Выберите закладку **Модули** в левом меню;
 3. Нажмите кнопку **Добавить модуль** в правом верхнем углу
@@ -66,7 +72,7 @@ After successful install and proper settings new choice of payment method with A
 6. Нажмите **Установить**;
 7. После установки платежная система сразу появится в списке при оформлении заказа.
 
-### НАСТРОЙКА
+## НАСТРОЙКА
 1. Зайдите в администрирование Prestashop;
 2. Выберите закладку **Модули** в левом меню;
 3. Найдите в списке модуль Arsenalpay;
@@ -77,14 +83,14 @@ After successful install and proper settings new choice of payment method with A
  - Ваш интернет-магазин будет получать уведомления о совершенных платежах: на адрес, указанный в поле **URL для обратного запроса**, от ArsenalPay будет поступать запрос с результатом платежа для фиксирования статусов заказа в системе предприятия. Обратный запрос настроен на адрес: `http(s)://адресВашегоСайта/index.php?fc=module&module=arsenalpay&controller=callback`
 6. Нажмите **Обновить настройки**.
 
-### УДАЛЕНИЕ
+## УДАЛЕНИЕ
 1. Зайдите в администрирование PrestaShop;
 2. Выберите закладку **Модули** в левом меню;
 3. Найдите в списке модуль **ArsenalPay**;
 4. Нажмите на кнопку выпадающего списка справа от кнопки **Настроить**;
 5. Нажмите кнопку **Удалить**.
 
-### ИСПОЛЬЗОВАНИЕ
+## ИСПОЛЬЗОВАНИЕ
 После успешной установки и настройки модуля на сайте появится возможность выбора платежной системы ArsenalPay.
 Для оплаты заказа с помощью платежной системы ArsenalPay нужно:
 
@@ -94,43 +100,10 @@ After successful install and proper settings new choice of payment method with A
 4. Перейти на страницу подтверждения введенных данных и ввода источника списания средств (мобильный номер, пластиковая карта и т.д.).
 5. После ввода данных об источнике платежа, в зависимости от его типа, либо придет СМС о подтверждении платежа, либо покупатель будет перенаправлен на страницу с результатом платежа.
 
-------------------
-### ОПИСАНИЕ РЕШЕНИЯ
-ArsenalPay – удобный и надежный платежный сервис для бизнеса любого размера. 
-
-Используя платежный модуль от ArsenalPay, вы сможете принимать онлайн-платежи от клиентов по всему миру с помощью: 
-пластиковых карт международных платёжных систем Visa и MasterCard, эмитированных в любом банке
-баланса мобильного телефона операторов МТС, Мегафон, Билайн, Ростелеком и ТЕЛЕ2
-различных электронных кошельков 
-
-### Преимущества сервиса: 
- - [Самые низкие тарифы](https://arsenalpay.ru/tariffs.html)
- - Бесплатное подключение и обслуживание
- - Легкая интеграция
- - [Агентская схема: ежемесячные выплаты разработчикам](https://arsenalpay.ru/partnership.html)
- - Вывод средств на расчетный счет без комиссии
- - Сервис смс оповещений
- - Персональный личный кабинет
- - Круглосуточная сервисная поддержка клиентов 
-
-А ещё мы можем взять на техническую поддержку ваш сайт и создать для вас мобильные приложения для Android и iOS. 
-
-ArsenalPay – увеличить прибыль просто! 
-Мы работаем 7 дней в неделю и 24 часа в сутки. А вместе с нами множество российских и зарубежных компаний. 
-
-### Как подключиться: 
-1. Вы скачали модуль и установили его у себя на сайте;
-2. Отправьте нам письмом ссылку на Ваш сайт на pay@arsenalpay.ru либо оставьте заявку на [сайте](https://arsenalpay.ru/#registerModal) через кнопку "Подключиться";
-3. Мы Вам вышлем коммерческие условия и технические настройки;
-4. После Вашего согласия мы отправим Вам проект договора на рассмотрение.
-5. Подписываем договор и приступаем к работе.
 
 Всегда с радостью ждем ваших писем с предложениями. 
 
 pay@arsenalpay.ru  
+
 [arsenalpay.ru](https://arsenalpay.ru)
- 
-
-
-
  
